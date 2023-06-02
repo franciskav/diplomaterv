@@ -5,6 +5,8 @@ export interface Colors {
   primaryLight: string
   secondary: string
   error: string
+  divider: string
+  shadow: string
   text: {
     primary: string
     light: string
@@ -17,12 +19,14 @@ export const colors: Colors = {
   white: '#FFFFFF',
   primary: '#127475',
   primaryLight: '#0E9594',
-  secondary: '#E56138',
-  error: '#92140C',
+  secondary: '#E56138', //EE964B
+  error: '#DE1A1A',
+  divider: '#A3A3A3',
+  shadow: '#11111111',
   text: {
     primary: '#080F0F',
-    light: '#BDBDBD',
-    accent: '#92140C',
+    light: '#A3A3A3',
+    accent: '#E56138',
   },
 }
 
@@ -32,10 +36,12 @@ export const darkColors: Colors = {
   primary: '#127475',
   primaryLight: '#0E9594',
   secondary: '#E56138',
-  error: '#92140C',
+  error: '#DE1A1A',
+  divider: '#A3A3A3',
+  shadow: '#11111111',
   text: {
     primary: '#080F0F',
-    light: '#BDBDBD',
-    accent: '#92140C',
+    light: '#A3A3A3',
+    accent: '#E56138',
   },
 }

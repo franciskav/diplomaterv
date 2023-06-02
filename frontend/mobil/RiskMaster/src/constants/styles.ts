@@ -8,4 +8,34 @@ export const textStyle = StyleSheet.create({
     fontSize: fontSizes.title,
     color: colors.text.primary,
   },
+  smallTitle: {
+    fontFamily: fonts.bold,
+    fontSize: fontSizes.smallTitle,
+    color: colors.text.primary,
+  },
+  label: {
+    fontFamily: fonts.medium,
+    fontSize: fontSizes.label,
+    color: colors.text.light,
+  },
+  placeholder: {
+    fontFamily: fonts.regular,
+    fontSize: fontSizes.medium,
+    color: colors.text.light,
+  },
+  textInput: {
+    fontFamily: fonts.regular,
+    fontSize: fontSizes.medium,
+    color: colors.text.primary,
+  },
+  error: {
+    fontFamily: fonts.medium,
+    fontSize: fontSizes.label,
+    color: colors.error,
+  },
+  medium: {
+    fontFamily: fonts.regular,
+    fontSize: fontSizes.medium,
+    color: colors.text.primary,
+  },
 })
