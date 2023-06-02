@@ -38,4 +38,12 @@ export const textStyle = StyleSheet.create({
     fontSize: fontSizes.medium,
     color: colors.text.primary,
   },
+  button: {
+    fontFamily: fonts.bold,
+    fontSize: fontSizes.button,
+    color: colors.text.primary,
+  },
+  center: {
+    textAlign: 'center',
+  },
 })

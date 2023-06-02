@@ -16,4 +16,6 @@ export const icons = {
   share: require('../../assets/icons/share.png'),
   sort: require('../../assets/icons/sort.png'),
   tick: require('../../assets/icons/tick.png'),
+  empty_list: require('../../assets/icons/empty_list.png'),
+  error_list: require('../../assets/icons/error_list.png'),
 }

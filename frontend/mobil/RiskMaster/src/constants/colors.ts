@@ -12,6 +12,11 @@ export interface Colors {
     light: string
     accent: string
   }
+  tab: {
+    text: string
+    backgroundActive: string
+    backgroundInactive: string
+  }
 }
 
 export const colors: Colors = {
@@ -22,11 +27,16 @@ export const colors: Colors = {
   secondary: '#E56138', //EE964B
   error: '#DE1A1A',
   divider: '#A3A3A3',
-  shadow: '#11111111',
+  shadow: '#11111155',
   text: {
     primary: '#080F0F',
     light: '#A3A3A3',
     accent: '#E56138',
+  },
+  tab: {
+    text: '#080F0F',
+    backgroundActive: '#FFFFFF',
+    backgroundInactive: '#DDDDDD',
   },
 }
 
@@ -38,10 +48,15 @@ export const darkColors: Colors = {
   secondary: '#E56138',
   error: '#DE1A1A',
   divider: '#A3A3A3',
-  shadow: '#11111111',
+  shadow: '#11111155',
   text: {
     primary: '#080F0F',
     light: '#A3A3A3',
     accent: '#E56138',
+  },
+  tab: {
+    text: '#080F0F',
+    backgroundActive: '#FFFFFF',
+    backgroundInactive: '#DDDDDD',
   },
 }
