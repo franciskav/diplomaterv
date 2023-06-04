@@ -1,9 +1,18 @@
-import React, {createContext, PropsWithChildren} from 'react'
+import React, {createContext, PropsWithChildren, useState} from 'react'
 
-interface SampleContextProps {}
+interface SampleContextProps {
+  sampleProp: string
+}
 
-export const SampleContext = createContext<SampleContextProps>({})
+export const SampleContext = createContext<SampleContextProps>({
+  sampleProp: '',
+})
 
 export const SampleProvider: React.FC<PropsWithChildren> = ({children}) => {
-  return <SampleContext.Provider value={{}}>{children}</SampleContext.Provider>
+  const [sampleProp] = useState('')
+  return (
+    <SampleContext.Provider value={{sampleProp}}>
+      {children}
+    </SampleContext.Provider>
+  )
 }

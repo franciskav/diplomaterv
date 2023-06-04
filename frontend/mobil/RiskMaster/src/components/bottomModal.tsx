@@ -40,8 +40,12 @@ interface ModalContextProps {
 }
 
 const ModalProviderContext = createContext<ModalContextProps>({
-  showModal: () => {},
-  closeModal: () => {},
+  showModal: () => {
+    throw new Error('Not implemented')
+  },
+  closeModal: () => {
+    throw new Error('Not implemented')
+  },
 })
 
 const initialState: ModalState = {

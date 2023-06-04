@@ -92,6 +92,8 @@ export const CustomTextInput = React.forwardRef(
   },
 )
 
+CustomTextInput.displayName = 'CustomTextInput'
+
 const createStyles = (colors: Colors) => {
   const styles = StyleSheet.create({
     container: {},

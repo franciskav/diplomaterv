@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/bottom-tabs'
 import {Image} from 'react-native'
 import {colors} from '../constants/colors'
-import {fonts, fontSizes} from '../constants/fonts'
+import {fontSizes, fonts} from '../constants/fonts'
 import {icons} from '../constants/icons'
 import {strings} from '../constants/localization'
 import {CompaniesStack} from './companiesStack'

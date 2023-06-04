@@ -1,4 +1,3 @@
-import React from 'react'
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native'
 import {Colors} from '../constants/colors'
 import {spaces} from '../constants/spaces'

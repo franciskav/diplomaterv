@@ -8,9 +8,9 @@
 import {NavigationContainer} from '@react-navigation/native'
 import React, {useEffect, useRef} from 'react'
 import {
-  Appearance,
   AppState,
   AppStateStatus,
+  Appearance,
   Platform,
   UIManager,
 } from 'react-native'
@@ -40,8 +40,11 @@ function App(): JSX.Element {
 
   useEffect(() => {
     const appearanceListener = (
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       preferences: Appearance.AppearancePreferences,
-    ) => {}
+    ) => {
+      /* */
+    }
     const remove = Appearance.addChangeListener(appearanceListener)
     return () => {
       remove
@@ -58,6 +61,7 @@ function App(): JSX.Element {
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
+        /* */
       }
 
       appState.current = nextAppState
@@ -78,6 +82,7 @@ function App(): JSX.Element {
     const currentRouteName = navigationRef?.current?.getCurrentRoute()?.name
 
     if (currentRouteName && previousRouteName !== currentRouteName) {
+      /* */
     }
 
     routeNameRef.current = currentRouteName

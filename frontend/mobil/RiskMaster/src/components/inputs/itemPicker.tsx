@@ -109,6 +109,7 @@ export const ItemPicker = (props: ItemPickerProps<any>) => {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createStyles = (colors: Colors) => {
   const styles = StyleSheet.create({
     touchable: {

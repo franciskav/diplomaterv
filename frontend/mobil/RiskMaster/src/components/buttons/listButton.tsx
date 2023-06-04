@@ -103,6 +103,7 @@ export const ListButton = (props: ListButtonProps) => {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createStyles = (colors: Colors) => {
   const styles = StyleSheet.create({
     touchable: {

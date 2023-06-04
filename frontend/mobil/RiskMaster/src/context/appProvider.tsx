@@ -8,9 +8,9 @@ interface AppProviderProps {
 }
 
 const providers: React.ReactElement[] = [
-  <BottomModalProvider />,
-  <SafeAreaProvider />,
-  <SampleProvider />,
+  <BottomModalProvider key={1} />,
+  <SafeAreaProvider key={2} />,
+  <SampleProvider key={2} />,
 ]
 
 export const AppProvider = ({children: initial}: AppProviderProps) =>

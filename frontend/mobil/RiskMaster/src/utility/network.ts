@@ -65,8 +65,8 @@ Network.interceptors.response.use(
         await asyncStorageService.clearAuthinfo()
         resetNavigation()
       } else if (error.response.status === 401) {
-        let refreshToken = await asyncStorageService.getRefreshToken()
-        let accessToken = await asyncStorageService.getAccessToken()
+        const refreshToken = await asyncStorageService.getRefreshToken()
+        const accessToken = await asyncStorageService.getAccessToken()
         if (accessToken) {
           const response = await Network.post('account/refresh', {
             token: refreshToken,
