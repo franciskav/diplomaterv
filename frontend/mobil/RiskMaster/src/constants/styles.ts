@@ -18,6 +18,11 @@ export const textStyle = StyleSheet.create({
     fontSize: fontSizes.label,
     color: colors.text.light,
   },
+  labelSecondary: {
+    fontFamily: fonts.medium,
+    fontSize: fontSizes.label,
+    color: colors.text.primary,
+  },
   placeholder: {
     fontFamily: fonts.regular,
     fontSize: fontSizes.medium,

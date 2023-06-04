@@ -86,8 +86,8 @@ const createStyles = (colors: Colors) => {
       width: 40,
     },
     smallContainer: {
-      height: 25,
-      width: 25,
+      height: 22,
+      width: 22,
     },
     smallIcon: {
       height: 18,

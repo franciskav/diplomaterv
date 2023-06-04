@@ -1,9 +1,164 @@
-import {Text, View} from 'react-native'
+import {useState} from 'react'
+import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native'
+import {ListButton} from '../../components/buttons/listButton'
+import {CustomTextInput} from '../../components/inputs/textInput'
+import {ListEmptyComponent} from '../../components/listEmptyComponent'
+import {Colors} from '../../constants/colors'
+import {icons} from '../../constants/icons'
+import {strings} from '../../constants/localization'
+import {margins} from '../../constants/margins'
+import {spaces} from '../../constants/spaces'
+import {useColors} from '../../hook/colorsHook'
+import {CompanyDto} from '../../model/CompanyDto'
+import {CompaniesListItem} from './components/companiesListItem'
+
+const data: CompanyDto[] = [
+  {
+    id: '1',
+    name: 'Comapny 1',
+    lastAssessment: Date.now().toString(),
+  },
+  {
+    id: '2',
+    name: 'Comapny 2',
+    lastAssessment: Date.now().toString(),
+  },
+  {
+    id: '3',
+    name: 'Comapny aminek hosszú a neve de nagyon',
+    lastAssessment: Date.now().toString(),
+  },
+  {
+    id: '4',
+    name: 'Company hiba nélkül',
+  },
+]
 
 export const CompaniesScreen = () => {
+  const colors = useColors()
+  const styles = createStyles(colors)
+
+  const [searchText, setSearchText] = useState<string>('')
+
+  const renderHeader = () => {
+    return (
+      <View style={styles.searcRow}>
+        <CustomTextInput
+          style={[styles.flex1, margins.mrNormal]}
+          textInputProps={{
+            value: searchText,
+            onChangeText: value => {
+              //TODO: implement
+              setSearchText(value)
+            },
+            returnKeyType: 'done',
+            placeholder: strings.common.search,
+          }}
+        />
+        <ListButton
+          icon={icons.sort}
+          data={[
+            {
+              name: strings.common.sort.nameIncreasing,
+              onPress: () => {
+                //TODO: implement
+              },
+            },
+            {
+              name: strings.common.sort.nameDecreasing,
+              onPress: () => {
+                //TODO: implement
+              },
+            },
+            {
+              name: strings.common.sort.dateIncreasing,
+              onPress: () => {
+                //TODO: implement
+              },
+            },
+            {
+              name: strings.common.sort.dateDecreasing,
+              onPress: () => {
+                //TODO: implement
+              },
+            },
+          ]}
+          headerText={strings.common.sort.title}
+        />
+      </View>
+    )
+  }
+
+  const renderItem = (row: ListRenderItemInfo<CompanyDto>) => {
+    return (
+      <CompaniesListItem
+        item={row.item}
+        onPress={() => {
+          //TODO: implement
+        }}
+      />
+    )
+  }
+
+  const itemSeparator = () => {
+    return <View style={styles.separator} />
+  }
+
+  const listEmptyComponent = () => {
+    return (
+      <ListEmptyComponent
+        text={strings.companies.emptyList}
+        button={{
+          title: strings.companies.addItem,
+          onPress: () => {
+            //TODO: implement
+          },
+        }}
+      />
+    )
+  }
+
   return (
-    <View>
-      <Text>Companies</Text>
+    <View style={styles.flex1}>
+      {renderHeader()}
+      <FlatList
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        data={data}
+        renderItem={renderItem}
+        ItemSeparatorComponent={itemSeparator}
+        ListEmptyComponent={listEmptyComponent}
+        keyboardShouldPersistTaps={'handled'}
+      />
     </View>
   )
+}
+
+const createStyles = (colors: Colors) => {
+  const styles = StyleSheet.create({
+    flex1: {
+      flex: 1,
+    },
+    searcRow: {
+      flexDirection: 'row',
+      paddingHorizontal: spaces.contentHorizontal,
+      paddingVertical: spaces.small,
+      backgroundColor: colors.white,
+    },
+    container: {
+      flexGrow: 1,
+      //backgroundColor: colors.background,
+    },
+    contentContainer: {
+      flexGrow: 1,
+      paddingHorizontal: spaces.contentHorizontal,
+      paddingTop: spaces.contentVertical,
+      paddingBottom: spaces.extraLarge,
+    },
+    separator: {
+      height: spaces.big,
+    },
+  })
+  return styles
 }

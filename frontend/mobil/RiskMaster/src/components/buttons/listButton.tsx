@@ -30,6 +30,7 @@ interface ListButtonProps {
   data: MenuItem[]
   headerText: string
   icon: ImageSourcePropType
+  small?: boolean
   type?: 'primary' | 'secondary'
   style?: StyleProp<ViewStyle>
   iconStyle?: StyleProp<ImageStyle>
@@ -99,6 +100,7 @@ export const ListButton = (props: ListButtonProps) => {
       style={props.style}
       iconStyle={props.iconStyle}
       disabled={props.disabled}
+      size={props.small ? 'small' : 'normal'}
     />
   )
 }

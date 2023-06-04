@@ -15,6 +15,19 @@ export const strings = new LocalizedStrings({
         loadError:
           'Hiba történt az adatok betöltése közben, kérjük próbálja meg újra!',
       },
+      sort: {
+        title: 'Rendezés',
+        nameIncreasing: 'Név szerint növekvő (A-Z)',
+        nameDecreasing: 'Név szerint csökkenő (Z-A)',
+        dateIncreasing: 'Dátum szerint növekvő',
+        dateDecreasing: 'Dátum szerint csökkenő',
+      },
+      actions: {
+        title: 'Műveletek',
+        edit: 'Szerkesztés',
+        delete: 'Törlés',
+      },
+      search: 'Keresés...',
     },
     tab: {
       companies: 'Cégek',
@@ -39,6 +52,12 @@ export const strings = new LocalizedStrings({
       password: 'Jelszó',
       passwordAgain: 'Jelszó megerősítése',
       signUp: 'Regisztráció',
+    },
+    companies: {
+      title: 'Cégek',
+      emptyList: 'A megadott keresési feltételek mellet nem található cég',
+      addItem: '+ Új hozzáadása',
+      lastAssessment: 'Utolsó kockázatelenzés',
     },
   },
 })
