@@ -34,7 +34,7 @@ export const CustomButton = (props: ButtonProps) => {
   const getContainerStyle = () => {
     if (props.type === 'secondary') {
       return {
-        backgroundColor: 'transparent',
+        backgroundColor: colors.white,
         borderColor: colors.primary,
       }
     }
@@ -112,6 +112,15 @@ const createStyles = (colors: Colors) => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
+
+      shadowColor: colors.black,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.17,
+      shadowRadius: 2.54,
+      elevation: 3,
     },
     icon: {
       maxHeight: 16,

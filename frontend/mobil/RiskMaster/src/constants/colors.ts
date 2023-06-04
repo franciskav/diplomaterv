@@ -1,6 +1,7 @@
 export interface Colors {
   background: string
   white: string
+  black: string
   primary: string
   primaryLight: string
   secondary: string
@@ -22,6 +23,7 @@ export interface Colors {
 export const colors: Colors = {
   background: '#FAFDF6',
   white: '#FFFFFF',
+  black: '#000000',
   primary: '#127475',
   primaryLight: '#0E9594',
   secondary: '#E56138', //EE964B
@@ -43,6 +45,7 @@ export const colors: Colors = {
 export const darkColors: Colors = {
   background: '#FAFDF6',
   white: '#FFFFFF',
+  black: '#000000',
   primary: '#127475',
   primaryLight: '#0E9594',
   secondary: '#E56138',

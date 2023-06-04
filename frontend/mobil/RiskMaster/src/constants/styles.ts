@@ -43,6 +43,11 @@ export const textStyle = StyleSheet.create({
     fontSize: fontSizes.button,
     color: colors.text.primary,
   },
+  body: {
+    fontFamily: fonts.regular,
+    fontSize: fontSizes.normal,
+    color: colors.text.primary,
+  },
   center: {
     textAlign: 'center',
   },

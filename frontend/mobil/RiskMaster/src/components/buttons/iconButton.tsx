@@ -18,9 +18,10 @@ export interface IconButtonProps {
   style?: StyleProp<ViewStyle>
   iconStyle?: StyleProp<ImageStyle>
   disabled?: boolean
+  size?: 'small' | 'normal'
 }
 
-export const IconButton = (props: IconButtonProps) => {
+export const IconButton = ({size = 'normal', ...props}: IconButtonProps) => {
   const colors = useColors()
   const styles = createStyles(colors)
 
@@ -54,6 +55,7 @@ export const IconButton = (props: IconButtonProps) => {
     <TouchableOpacity
       style={[
         styles.container,
+        size === 'small' && styles.smallContainer,
         getContainerStyle(),
         props.style,
         {opacity: opacity},
@@ -62,7 +64,11 @@ export const IconButton = (props: IconButtonProps) => {
       disabled={props.disabled}>
       <Image
         source={props.icon}
-        style={[styles.icon, getTintColor(), props.iconStyle]}
+        style={[
+          size === 'small' && styles.smallIcon,
+          getTintColor(),
+          props.iconStyle,
+        ]}
       />
     </TouchableOpacity>
   )
@@ -79,7 +85,14 @@ const createStyles = (colors: Colors) => {
       height: 40,
       width: 40,
     },
-    icon: {},
+    smallContainer: {
+      height: 25,
+      width: 25,
+    },
+    smallIcon: {
+      height: 18,
+      width: 18,
+    },
   })
   return styles
 }

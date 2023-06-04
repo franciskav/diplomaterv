@@ -76,7 +76,7 @@ const createStyles = (colors: Colors) => {
       padding: spaces.small,
     },
     shadow: {
-      shadowColor: '#000000',
+      shadowColor: colors.black,
       shadowOffset: {
         width: 0,
         height: 2,

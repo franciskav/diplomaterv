@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Image,
-  ImageBackground,
   ImageSourcePropType,
   StyleProp,
   StyleSheet,
@@ -32,19 +31,13 @@ export const ListEmptyComponent = (props: ListEmptyComponentProps) => {
 
   return (
     <View style={[styles.center, props.style]}>
-      {(props.icon || props.error) && (
-        <ImageBackground
-          source={icons.empty_list}
-          style={styles.imageBackground}>
-          <Image
-            source={
-              props.error === undefined && props.icon
-                ? props.icon
-                : icons.error_list
-            }
-          />
-        </ImageBackground>
-      )}
+      <Image
+        style={[
+          styles.image,
+          {tintColor: props.error ? colors.error : colors.primaryLight},
+        ]}
+        source={props.icon ?? props.error ? icons.error_list : icons.empty_list}
+      />
       {props.error === undefined ? (
         <Text style={[styles.infoText, margins.mtLarge, margins.mbLarge]}>
           {props.text}
@@ -89,11 +82,10 @@ const createStyles = (colors: Colors) => {
       fontSize: fontSizes.medium,
       color: colors.error,
     },
-    imageBackground: {
-      width: 112,
-      height: 112,
-      alignItems: 'center',
-      justifyContent: 'center',
+    image: {
+      width: 100,
+      height: 100,
+      resizeMode: 'contain',
     },
   })
   return styles
