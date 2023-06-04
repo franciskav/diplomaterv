@@ -5,114 +5,99 @@
  * @format
  */
 
-import React from 'react'
-import type {PropsWithChildren} from 'react'
+import {NavigationContainer} from '@react-navigation/native'
+import React, {useEffect, useRef} from 'react'
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
+  AppState,
+  AppStateStatus,
+  Appearance,
+  Platform,
+  UIManager,
 } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen'
-
-type SectionProps = PropsWithChildren<{
-  title: string
-}>
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark'
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  )
-}
+import {AppProvider} from './src/context/appProvider'
+import {isReadyRef, navigationRef} from './src/navigation/navigation'
+import {RootStack} from './src/navigation/rootStack'
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark'
+  if (
+    Platform.OS === 'android' &&
+    UIManager.setLayoutAnimationEnabledExperimental
+  ) {
+    if (DeviceInfo.getApiLevelSync() > 30) {
+      UIManager.setLayoutAnimationEnabledExperimental(false)
+    } else {
+      UIManager.setLayoutAnimationEnabledExperimental(true)
+    }
+  }
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  React.useEffect(() => {
+    return () => {
+      isReadyRef.current = false
+    }
+  }, [])
+
+  useEffect(() => {
+    const appearanceListener = (
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      preferences: Appearance.AppearancePreferences,
+    ) => {
+      /* */
+    }
+    const remove = Appearance.addChangeListener(appearanceListener)
+    return () => {
+      remove
+    }
+  }, [])
+
+  const routeNameRef: React.MutableRefObject<string | null | undefined> | null =
+    useRef(null)
+  const appState = useRef(AppState.currentState)
+
+  useEffect(() => {
+    const appStateListener = (nextAppState: AppStateStatus) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        /* */
+      }
+
+      appState.current = nextAppState
+    }
+    const remove = AppState.addEventListener('change', appStateListener)
+
+    return () => {
+      remove
+    }
+  }, [])
+
+  const onReady = () => {
+    isReadyRef.current = true
+    routeNameRef.current = navigationRef?.current?.getCurrentRoute?.()?.name
+  }
+  const onStateChange = () => {
+    const previousRouteName = routeNameRef.current
+    const currentRouteName = navigationRef?.current?.getCurrentRoute()?.name
+
+    if (currentRouteName && previousRouteName !== currentRouteName) {
+      /* */
+    }
+
+    routeNameRef.current = currentRouteName
   }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <AppProvider>
+      <NavigationContainer
+        ref={navigationRef}
+        onReady={onReady}
+        onStateChange={onStateChange}>
+        <RootStack />
+      </NavigationContainer>
+    </AppProvider>
   )
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-})
 
 export default App

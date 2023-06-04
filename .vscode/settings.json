@@ -1,3 +1,9 @@
 {
-  "prettier.configPath": "frontend/mobil/RiskMaster/.prettierrc.js"
+  "prettier.configPath": "frontend/mobil/RiskMaster/.prettierrc.js",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "eslint.workingDirectories": [
+    ".frontend/mobil/RiskMaster/.eslintrc.json"
+  ] 
 }
