@@ -1,6 +1,7 @@
 import React from 'react'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {BottomModalProvider} from '../components/bottomModal'
+import {AuthProvider} from './authProvider'
 import {SampleProvider} from './sampleProvider'
 
 interface AppProviderProps {
@@ -10,7 +11,8 @@ interface AppProviderProps {
 const providers: React.ReactElement[] = [
   <BottomModalProvider key={1} />,
   <SafeAreaProvider key={2} />,
-  <SampleProvider key={2} />,
+  <SampleProvider key={3} />,
+  <AuthProvider key={4} />,
 ]
 
 export const AppProvider = ({children: initial}: AppProviderProps) =>

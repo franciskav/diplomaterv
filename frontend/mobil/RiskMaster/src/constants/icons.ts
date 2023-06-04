@@ -18,4 +18,8 @@ export const icons = {
   tick: require('../../assets/icons/tick.png'),
   empty_list: require('../../assets/icons/empty_list.png'),
   error_list: require('../../assets/icons/error_list.png'),
+  logo: require('../../assets/icons/logo.png'),
+  logo_string: require('../../assets/icons/logoString.png'),
+  visibility: require('../../assets/icons/visibility.png'),
+  visibility_off: require('../../assets/icons/visibility_off.png'),
 }

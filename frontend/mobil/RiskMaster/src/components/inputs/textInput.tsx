@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {
   Image,
   ImageSourcePropType,
+  ImageStyle,
   LayoutAnimation,
   StyleProp,
   StyleSheet,
@@ -28,6 +29,7 @@ interface CustomTextInputProps {
   style?: StyleProp<ViewStyle>
   onPress?: () => void
   icon?: ImageSourcePropType
+  iconStyle?: StyleProp<ImageStyle>
   onIconPress?: () => void
   disabled?: boolean
 }
@@ -82,7 +84,10 @@ export const CustomTextInput = React.forwardRef(
               style={styles.iconContainer}
               onPress={props.onIconPress}
               disabled={!props.onIconPress}>
-              <Image source={props.icon} style={styles.icon} />
+              <Image
+                source={props.icon}
+                style={[styles.icon, props.iconStyle]}
+              />
             </TouchableOpacity>
           )}
         </TouchableOpacity>
@@ -120,6 +125,7 @@ const createStyles = (colors: Colors) => {
       height: 25,
       width: 25,
       resizeMode: 'center',
+      tintColor: colors.primary,
     },
   })
   return styles
