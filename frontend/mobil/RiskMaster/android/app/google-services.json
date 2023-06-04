@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "153060288091",
+    "project_id": "riskmaster-3a17c",
+    "storage_bucket": "riskmaster-3a17c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153060288091:android:0f262b80d9beadc9ac417e",
+        "android_client_info": {
+          "package_name": "hu.franciskavigh.riskmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153060288091-1mougrq7fee370hqg9idmo7he5rnbq96.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiiBma2j979QgDID05nNA3sBVt37zIuyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153060288091-1mougrq7fee370hqg9idmo7he5rnbq96.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
