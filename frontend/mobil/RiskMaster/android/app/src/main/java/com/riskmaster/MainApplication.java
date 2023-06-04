@@ -1,4 +1,4 @@
-package com.riskmaster;
+package hu.franciskavigh.riskmaster;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
