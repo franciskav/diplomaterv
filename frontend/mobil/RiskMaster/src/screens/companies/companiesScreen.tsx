@@ -12,29 +12,29 @@ import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
 import {useColors} from '../../hook/colorsHook'
-import {CompanyDto} from '../../model/CompanyDto'
+import {CompanyDto} from '../../model/companyDto'
 import {RootStackProps} from '../../navigation/rootStack'
 import {CompaniesListItem} from './components/companiesListItem'
 
 const data: CompanyDto[] = [
   {
     id: '1',
-    name: 'Comapny 1',
+    name: 'Company 1',
     lastAssessment: Date.now().toString(),
   },
   {
     id: '2',
-    name: 'Comapny 2',
+    name: 'Company 2',
     lastAssessment: Date.now().toString(),
   },
   {
     id: '3',
-    name: 'Comapny aminek hosszú a neve de nagyon',
+    name: 'Company aminek hosszú a neve de nagyon',
     lastAssessment: Date.now().toString(),
   },
   {
     id: '4',
-    name: 'Company hiba nélkül',
+    name: 'Lorem ipsum',
   },
 ]
 
@@ -118,6 +118,10 @@ export const CompaniesScreen = () => {
         item={row.item}
         onPress={() => {
           //TODO: implement
+          navigation.push('CompanyDetailsScreen', {
+            companyId: row.item.id,
+            companyName: row.item.name,
+          })
         }}
       />
     )

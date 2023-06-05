@@ -7,23 +7,35 @@ import {strings} from '../../../constants/localization'
 import {margins} from '../../../constants/margins'
 import {textStyle} from '../../../constants/styles'
 import {useColors} from '../../../hook/colorsHook'
-import {CompanyDto} from '../../../model/companyDto'
+import {AssessmentDto} from '../../../model/assessmentDto'
+import {RiskLevelsDto} from '../../../model/riskLevelsDto'
 import {formatDate} from '../../../utility/helpers/formatHelper'
 
-interface CompaniesListItemProps {
-  item: CompanyDto
+interface AssessmentListItemProps {
+  item: AssessmentDto
   onPress: () => void
 }
 
-export const CompaniesListItem = (props: CompaniesListItemProps) => {
+export const AssessmentListItem = (props: AssessmentListItemProps) => {
   const colors = useColors()
   const styles = createStyles(colors)
+
+  const riskItem = (risk: RiskLevelsDto, index: number) => {
+    return (
+      <View style={styles.riskItem} key={index}>
+        <Text style={textStyle.labelSecondary}>{risk.level}</Text>
+        <Text style={[textStyle.small, margins.mtSmall]}>{`${
+          risk.percent * 100
+        }%`}</Text>
+      </View>
+    )
+  }
 
   return (
     <Card onPress={props.onPress} style={styles.card}>
       <View style={[styles.row, margins.mbNormal]}>
         <Text style={[textStyle.smallTitle, styles.flex1]}>
-          {props.item.name}
+          {`${props.item.name} - ${formatDate(props.item.date)}`}
         </Text>
         <ListButton
           small
@@ -49,14 +61,18 @@ export const CompaniesListItem = (props: CompaniesListItemProps) => {
           headerText={strings.common.actions.title}
         />
       </View>
-      <Text style={textStyle.labelSecondary}>
-        {`${strings.companies.lastAssessment}: `}
-        <Text style={textStyle.body}>
-          {props.item.lastAssessment
-            ? formatDate(props.item.lastAssessment)
-            : '-'}
-        </Text>
+      <Text style={[textStyle.labelSecondary, margins.mbNormal]}>
+        {`${strings.companyDetails.numberOfPositions}: `}
+        <Text style={textStyle.body}>{props.item.numberOfPositions}</Text>
       </Text>
+      <Text style={[textStyle.labelSecondary, margins.mbNormal]}>
+        {`${strings.companyDetails.riskLevels}: `}
+      </Text>
+      <View style={[styles.riskContainer]}>
+        {props.item.riskLevels.map((riskLevel, index) =>
+          riskItem(riskLevel, index),
+        )}
+      </View>
     </Card>
   )
 }
@@ -71,6 +87,14 @@ const createStyles = (colors: Colors) => {
     },
     row: {
       flexDirection: 'row',
+    },
+    riskContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+    },
+    riskItem: {
+      alignItems: 'center',
     },
   })
   return styles

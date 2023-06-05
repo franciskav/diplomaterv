@@ -53,6 +53,11 @@ export const textStyle = StyleSheet.create({
     fontSize: fontSizes.normal,
     color: colors.text.primary,
   },
+  small: {
+    fontFamily: fonts.regular,
+    fontSize: fontSizes.label,
+    color: colors.text.primary,
+  },
   center: {
     textAlign: 'center',
   },

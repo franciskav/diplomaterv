@@ -77,5 +77,9 @@ export const strings = new LocalizedStrings({
       email: 'Email',
       phone: 'Telefon',
     },
+    companyDetails: {
+      numberOfPositions: 'Munkakörök',
+      riskLevels: 'Kockázati szintek',
+    },
   },
 })

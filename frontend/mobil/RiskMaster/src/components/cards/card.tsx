@@ -40,7 +40,7 @@ export const Card = (props: CardProps) => {
 const createStyles = (colors: Colors) => {
   const styles = StyleSheet.create({
     container: {
-      borderRadius: 8,
+      borderRadius: 12,
       backgroundColor: colors.white,
       padding: spaces.medium,
       borderColor: colors.divider,

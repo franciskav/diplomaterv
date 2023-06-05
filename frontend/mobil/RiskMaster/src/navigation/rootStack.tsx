@@ -8,6 +8,10 @@ import {icons} from '../constants/icons'
 import {spaces} from '../constants/spaces'
 import {textStyle} from '../constants/styles'
 import {
+  CompanyDetailsScreen,
+  CompanyDetailsScreenProps,
+} from '../screens/companies/companyDetailsScreen'
+import {
   CreateCompanyScreen,
   CreateCompanyScreenProps,
 } from '../screens/companies/createCompany'
@@ -18,6 +22,7 @@ export type RootStackProps = {
   AuthStack: undefined
   RootTab: undefined
   CreateCompany?: CreateCompanyScreenProps
+  CompanyDetailsScreen: CompanyDetailsScreenProps
 }
 
 export const RootStack = () => {
@@ -30,6 +35,11 @@ export const RootStack = () => {
       <Root.Screen
         name="CreateCompany"
         component={CreateCompanyScreen}
+        options={{...modalWithBack}}
+      />
+      <Root.Screen
+        name="CompanyDetailsScreen"
+        component={CompanyDetailsScreen}
         options={{...modalWithBack}}
       />
     </Root.Navigator>
