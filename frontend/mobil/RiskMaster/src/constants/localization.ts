@@ -18,6 +18,7 @@ export const strings = new LocalizedStrings({
       buttons: {
         save: 'Mentés',
         cancel: 'Mégse',
+        ok: 'Ok',
       },
       sort: {
         title: 'Rendezés',

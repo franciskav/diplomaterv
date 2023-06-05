@@ -23,4 +23,5 @@ export const icons = {
   visibility: require('../../assets/icons/visibility.png'),
   visibility_off: require('../../assets/icons/visibility_off.png'),
   add: require('../../assets/icons/add.png'),
+  calendar: require('../../assets/icons/calendar.png'),
 }
