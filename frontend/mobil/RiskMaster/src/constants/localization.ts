@@ -15,6 +15,10 @@ export const strings = new LocalizedStrings({
         loadError:
           'Hiba történt az adatok betöltése közben, kérjük próbálja meg újra!',
       },
+      buttons: {
+        save: 'Mentés',
+        cancel: 'Mégse',
+      },
       sort: {
         title: 'Rendezés',
         nameIncreasing: 'Név szerint növekvő (A-Z)',
@@ -58,6 +62,20 @@ export const strings = new LocalizedStrings({
       emptyList: 'A megadott keresési feltételek mellet nem található cég',
       addItem: '+ Új hozzáadása',
       lastAssessment: 'Utolsó kockázatelenzés',
+    },
+    createCompany: {
+      createTitle: 'Cég létrehozása',
+      editTitle: 'Cég módosítása',
+      companyData: 'Cégadatok',
+      contactData: 'Kapcsolattartó',
+      companyName: 'Cégnév',
+      zipCode: 'Irányítószám',
+      city: 'Város',
+      street: 'Utca, házszám',
+      door: 'Emelet, ajtó',
+      contactName: 'Név',
+      email: 'Email',
+      phone: 'Telefon',
     },
   },
 })

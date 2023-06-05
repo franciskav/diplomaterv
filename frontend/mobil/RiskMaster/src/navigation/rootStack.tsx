@@ -7,12 +7,17 @@ import {colors} from '../constants/colors'
 import {icons} from '../constants/icons'
 import {spaces} from '../constants/spaces'
 import {textStyle} from '../constants/styles'
+import {
+  CreateCompanyScreen,
+  CreateCompanyScreenProps,
+} from '../screens/companies/createCompany'
 import {AuthStack} from './authStack'
 import {RootTab} from './rootTab'
 
 export type RootStackProps = {
   AuthStack: undefined
   RootTab: undefined
+  CreateCompany?: CreateCompanyScreenProps
 }
 
 export const RootStack = () => {
@@ -22,6 +27,11 @@ export const RootStack = () => {
     <Root.Navigator screenOptions={defaultOptions}>
       <Root.Screen name="AuthStack" component={AuthStack} />
       <Root.Screen name="RootTab" component={RootTab} />
+      <Root.Screen
+        name="CreateCompany"
+        component={CreateCompanyScreen}
+        options={{...modalWithBack}}
+      />
     </Root.Navigator>
   )
 }
@@ -48,7 +58,11 @@ const modalWithBack: StackNavigationOptions = {
   headerTitleStyle: textStyle.title,
   headerBackImage: p => (
     <Image
-      style={{margin: spaces.contentHorizontal, resizeMode: 'contain'}}
+      style={{
+        margin: spaces.contentHorizontal,
+        resizeMode: 'contain',
+        tintColor: colors.primary,
+      }}
       source={icons.arrow_back}
     />
   ),

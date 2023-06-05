@@ -21,7 +21,7 @@ export interface Colors {
 }
 
 export const colors: Colors = {
-  background: '#FAFDF6',
+  background: '#e6eeee',
   white: '#FFFFFF',
   black: '#000000',
   primary: '#127475',
@@ -43,7 +43,7 @@ export const colors: Colors = {
 }
 
 export const darkColors: Colors = {
-  background: '#FAFDF6',
+  background: '#F2F6F6',
   white: '#FFFFFF',
   black: '#000000',
   primary: '#127475',

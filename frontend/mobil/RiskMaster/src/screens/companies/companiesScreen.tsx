@@ -1,5 +1,8 @@
-import {useState} from 'react'
+import {useNavigation} from '@react-navigation/native'
+import {StackNavigationProp} from '@react-navigation/stack'
+import {useEffect, useState} from 'react'
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native'
+import {IconButton} from '../../components/buttons/iconButton'
 import {ListButton} from '../../components/buttons/listButton'
 import {CustomTextInput} from '../../components/inputs/textInput'
 import {ListEmptyComponent} from '../../components/listEmptyComponent'
@@ -10,6 +13,7 @@ import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
 import {useColors} from '../../hook/colorsHook'
 import {CompanyDto} from '../../model/CompanyDto'
+import {RootStackProps} from '../../navigation/rootStack'
 import {CompaniesListItem} from './components/companiesListItem'
 
 const data: CompanyDto[] = [
@@ -38,7 +42,26 @@ export const CompaniesScreen = () => {
   const colors = useColors()
   const styles = createStyles(colors)
 
+  const navigation = useNavigation<StackNavigationProp<RootStackProps>>()
+
   const [searchText, setSearchText] = useState<string>('')
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          style={margins.mrMedium}
+          type="secondary"
+          size="small"
+          icon={icons.add}
+          onPress={() => {
+            //TODO: implement
+            navigation.push('CreateCompany')
+          }}
+        />
+      ),
+    })
+  }, [])
 
   const renderHeader = () => {
     return (
@@ -148,7 +171,7 @@ const createStyles = (colors: Colors) => {
     },
     container: {
       flexGrow: 1,
-      //backgroundColor: colors.background,
+      backgroundColor: colors.background,
     },
     contentContainer: {
       flexGrow: 1,
