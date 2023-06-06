@@ -13,6 +13,8 @@ import {formatDate} from '../../../utility/helpers/formatHelper'
 interface CompaniesListItemProps {
   item: CompanyDto
   onPress: () => void
+  onEditPress: () => void
+  onDeletePress: () => void
 }
 
 export const CompaniesListItem = (props: CompaniesListItemProps) => {
@@ -33,17 +35,13 @@ export const CompaniesListItem = (props: CompaniesListItemProps) => {
             {
               name: strings.common.actions.edit,
               icon: icons.edit,
-              onPress: () => {
-                //TODO: implement
-              },
+              onPress: props.onEditPress,
             },
             {
               name: strings.common.actions.delete,
               icon: icons.delete,
               isAccent: true,
-              onPress: () => {
-                //TODO: implement
-              },
+              onPress: props.onDeletePress,
             },
           ]}
           headerText={strings.common.actions.title}

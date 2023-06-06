@@ -81,6 +81,15 @@ export const strings = new LocalizedStrings({
     companyDetails: {
       numberOfPositions: 'Munkakörök',
       riskLevels: 'Kockázati szintek',
+      emptyList: 'A megadott keresési feltételek mellet nem található cég',
+      addItem: '+ Új hozzáadása',
+    },
+    createAssessment: {
+      createTitle: 'Új kockázatelemzés',
+      editTitle: 'Kockázatelemezés szerkesztése',
+      name: 'Név',
+      date: 'Időpont',
+      type: 'Helyszín típus',
     },
   },
 })

@@ -127,6 +127,7 @@ export const CompanyDetailsScreen = () => {
             icon={icons.add}
             onPress={() => {
               //TODO: implement
+              navigation.push('CreateAssessment')
             }}
           />
           <IconButton
@@ -236,6 +237,12 @@ export const CompanyDetailsScreen = () => {
         onPress={() => {
           //TODO: implement
         }}
+        onEditPress={() => {
+          navigation.push('CreateAssessment', {assessmentId: row.item.id})
+        }}
+        onDeletePress={() => {
+          //TODO: implement
+        }}
       />
     )
   }
@@ -247,9 +254,9 @@ export const CompanyDetailsScreen = () => {
   const listEmptyComponent = () => {
     return (
       <ListEmptyComponent
-        text={strings.companies.emptyList}
+        text={strings.companyDetails.emptyList}
         button={{
-          title: strings.companies.addItem,
+          title: strings.companyDetails.addItem,
           onPress: () => {
             //TODO: implement
           },

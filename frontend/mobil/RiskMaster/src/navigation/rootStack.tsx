@@ -12,6 +12,10 @@ import {
   CompanyDetailsScreenProps,
 } from '../screens/companies/companyDetailsScreen'
 import {
+  CreateAssessmentScreen,
+  CreateAssessmentScreenProps,
+} from '../screens/companies/createAssessment'
+import {
   CreateCompanyScreen,
   CreateCompanyScreenProps,
 } from '../screens/companies/createCompany'
@@ -23,6 +27,7 @@ export type RootStackProps = {
   RootTab: undefined
   CreateCompany?: CreateCompanyScreenProps
   CompanyDetailsScreen: CompanyDetailsScreenProps
+  CreateAssessment?: CreateAssessmentScreenProps
 }
 
 export const RootStack = () => {
@@ -40,6 +45,11 @@ export const RootStack = () => {
       <Root.Screen
         name="CompanyDetailsScreen"
         component={CompanyDetailsScreen}
+        options={{...modalWithBack}}
+      />
+      <Root.Screen
+        name="CreateAssessment"
+        component={CreateAssessmentScreen}
         options={{...modalWithBack}}
       />
     </Root.Navigator>

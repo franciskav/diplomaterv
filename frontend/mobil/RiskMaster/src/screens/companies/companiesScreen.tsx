@@ -123,6 +123,12 @@ export const CompaniesScreen = () => {
             companyName: row.item.name,
           })
         }}
+        onEditPress={() => {
+          navigation.push('CreateCompany', {companyId: row.item.id})
+        }}
+        onDeletePress={() => {
+          //TODO: implement
+        }}
       />
     )
   }
