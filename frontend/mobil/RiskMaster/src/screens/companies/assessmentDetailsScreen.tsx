@@ -1,6 +1,5 @@
-import {useNavigation} from '@react-navigation/native'
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
-import dayjs from 'dayjs'
 import {useEffect, useState} from 'react'
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native'
 import {IconButton} from '../../components/buttons/iconButton'
@@ -13,56 +12,108 @@ import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
 import {useColors} from '../../hook/colorsHook'
-import {CompanyDto} from '../../model/companyDto'
+import {AssessmentDetailsDto} from '../../model/assessmentDetailsDto'
+import {PositionDto} from '../../model/positionDto'
 import {RootStackProps} from '../../navigation/rootStack'
-import {CompaniesListItem} from './components/companiesListItem'
+import {PositionListItem} from './components/positionListItem'
 
-const data: CompanyDto[] = [
-  {
-    id: '1',
-    name: 'Gránit Zrt',
-    lastAssessment: dayjs('2023-04-22').toString(),
-  },
-  {
-    id: '2',
-    name: 'Fruit Systems',
-    lastAssessment: dayjs('2023-02-11').toString(),
-  },
-  {
-    id: '3',
-    name: 'Ant Labs',
-    lastAssessment: dayjs('2022-05-1').toString(),
-  },
-  {
-    id: '4',
-    name: 'RailwayStory',
-  },
-]
+const assessmentDetails: AssessmentDetailsDto = {
+  id: '1',
+  name: 'Gránit Zrt',
+  locationType: 'Raktár',
+  positions: [
+    {
+      id: '1',
+      name: 'Targoncakezelő',
+      risks: [
+        {
+          risk: 'Fizikai kockázat:',
+          degree: 2,
+        },
+        {
+          risk: 'Kémiai kockázat:',
+          degree: undefined,
+        },
+        {
+          risk: 'Biológiai kockázat:',
+          degree: undefined,
+        },
+        {
+          risk: 'Pszichoszociális kockázat:',
+          degree: undefined,
+        },
+      ],
+    },
+    {
+      id: '2',
+      name: 'Műszakvezető',
+      risks: [
+        {
+          risk: 'Fizikai kockázat:',
+          degree: undefined,
+        },
+        {
+          risk: 'Kémiai kockázat:',
+          degree: undefined,
+        },
+        {
+          risk: 'Biológiai kockázat:',
+          degree: undefined,
+        },
+        {
+          risk: 'Pszichoszociális kockázat:',
+          degree: undefined,
+        },
+      ],
+    },
+  ],
+}
 
-export const CompaniesScreen = () => {
+export interface AssessmentDetailsScreenProps {
+  assessmentId: string
+  assessmentName: string
+}
+
+export const AssessmentDetailsScreen = () => {
   const colors = useColors()
   const styles = createStyles(colors)
 
+  const route =
+    useRoute<RouteProp<RootStackProps, 'AsseessmentDetailsScreen'>>()
   const navigation = useNavigation<StackNavigationProp<RootStackProps>>()
 
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchText, setSearchText] = useState<string>('')
 
   useEffect(() => {
     navigation.setOptions({
+      title: route.params.assessmentName,
       headerRight: () => (
-        <IconButton
-          style={margins.mrMedium}
-          type="secondary"
-          size="small"
-          icon={icons.add}
-          onPress={() => {
-            //TODO: implement
-            navigation.push('CreateCompany')
-          }}
-        />
+        <View style={styles.row}>
+          {/* <IconButton
+            style={margins.mrNormal}
+            type="secondary"
+            size="small"
+            icon={icons.add}
+            onPress={() => {
+              //TODO: implement
+              navigation.push('CreateAssessment')
+            }}
+          /> */}
+          <IconButton
+            style={margins.mrMedium}
+            type="secondary"
+            size="small"
+            icon={icons.sort}
+            onPress={() => {
+              //TODO: implement
+              setIsSearchOpen(!isSearchOpen)
+            }}
+          />
+        </View>
       ),
     })
-  }, [])
+  }, [isSearchOpen])
 
   const renderHeader = () => {
     return (
@@ -113,19 +164,15 @@ export const CompaniesScreen = () => {
     )
   }
 
-  const renderItem = (row: ListRenderItemInfo<CompanyDto>) => {
+  const renderItem = (row: ListRenderItemInfo<PositionDto>) => {
     return (
-      <CompaniesListItem
+      <PositionListItem
         item={row.item}
         onPress={() => {
           //TODO: implement
-          navigation.push('CompanyDetailsScreen', {
-            companyId: row.item.id,
-            companyName: row.item.name,
-          })
         }}
         onEditPress={() => {
-          navigation.push('CreateCompany', {companyId: row.item.id})
+          navigation.push('CreateAssessment', {assessmentId: row.item.id})
         }}
         onDeletePress={() => {
           //TODO: implement
@@ -141,9 +188,9 @@ export const CompaniesScreen = () => {
   const listEmptyComponent = () => {
     return (
       <ListEmptyComponent
-        text={strings.companies.emptyList}
+        text={strings.companyDetails.emptyList}
         button={{
-          title: strings.companies.addItem,
+          title: strings.companyDetails.addItem,
           onPress: () => {
             //TODO: implement
           },
@@ -154,12 +201,12 @@ export const CompaniesScreen = () => {
 
   return (
     <View style={styles.flex1}>
-      {renderHeader()}
+      {isSearchOpen && renderHeader()}
       <FlatList
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
-        data={data}
+        data={assessmentDetails.positions}
         renderItem={renderItem}
         ItemSeparatorComponent={itemSeparator}
         ListEmptyComponent={listEmptyComponent}
@@ -174,11 +221,22 @@ const createStyles = (colors: Colors) => {
     flex1: {
       flex: 1,
     },
+    row: {
+      flexDirection: 'row',
+    },
     searcRow: {
       flexDirection: 'row',
       paddingHorizontal: spaces.contentHorizontal,
       paddingVertical: spaces.small,
       backgroundColor: colors.white,
+    },
+    infoRow: {
+      paddingHorizontal: spaces.contentHorizontal,
+      paddingVertical: spaces.normal,
+      backgroundColor: colors.white,
+      borderColor: colors.background,
+      borderTopWidth: spaces.normal,
+      borderBottomWidth: spaces.normal,
     },
     container: {
       flexGrow: 1,
@@ -187,7 +245,7 @@ const createStyles = (colors: Colors) => {
     contentContainer: {
       flexGrow: 1,
       paddingHorizontal: spaces.contentHorizontal,
-      paddingTop: spaces.contentVertical,
+      paddingTop: spaces.normal,
       paddingBottom: spaces.extraLarge,
     },
     separator: {

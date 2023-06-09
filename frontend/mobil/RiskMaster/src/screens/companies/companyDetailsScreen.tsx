@@ -1,5 +1,6 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
+import dayjs from 'dayjs'
 import {useEffect, useState} from 'react'
 import {
   FlatList,
@@ -26,23 +27,23 @@ import {AssessmentListItem} from './components/assessmentListItem'
 
 const companyDetails: CompanyDetailsDto = {
   id: '1',
-  name: 'Company name',
-  lastAssessment: Date.now().toString(),
+  name: 'Gránit Zrt',
+  lastAssessment: dayjs('2023-04-22').toString(),
   address: {
     zipCode: '1117',
     city: 'Budapest',
     street: 'Magyar Tudósok Körútja 2',
   },
   contact: {
-    name: 'John Doe',
-    email: 'john-doe@mail.com',
+    name: 'Kiss János',
+    email: 'kiss.janos@mail.com',
     phone: '+36202233444',
   },
   assessments: [
     {
       id: '1',
       name: 'Csiszolókorong raktár',
-      date: Date.now().toString(),
+      date: dayjs('2023-04-22').toString(),
       locationType: 'Raktár',
       numberOfPositions: 2,
       riskLevels: [
@@ -71,17 +72,17 @@ const companyDetails: CompanyDetailsDto = {
     {
       id: '2',
       name: 'Iroda',
-      date: Date.now().toString(),
+      date: dayjs('2023-02-13').toString(),
       locationType: 'Iroda',
-      numberOfPositions: 2,
+      numberOfPositions: 1,
       riskLevels: [
         {
           level: 'I',
-          percent: 0.85,
+          percent: 0.94,
         },
         {
           level: 'II',
-          percent: 0.08,
+          percent: 0.01,
         },
         {
           level: 'III',
@@ -89,11 +90,11 @@ const companyDetails: CompanyDetailsDto = {
         },
         {
           level: 'IV',
-          percent: 0.01,
+          percent: 0,
         },
         {
           level: 'V',
-          percent: 0.01,
+          percent: 0,
         },
       ],
     },
@@ -236,6 +237,10 @@ export const CompanyDetailsScreen = () => {
         item={row.item}
         onPress={() => {
           //TODO: implement
+          navigation.push('AsseessmentDetailsScreen', {
+            assessmentId: row.item.id,
+            assessmentName: row.item.name,
+          })
         }}
         onEditPress={() => {
           navigation.push('CreateAssessment', {assessmentId: row.item.id})

@@ -8,6 +8,10 @@ import {icons} from '../constants/icons'
 import {spaces} from '../constants/spaces'
 import {textStyle} from '../constants/styles'
 import {
+  AssessmentDetailsScreen,
+  AssessmentDetailsScreenProps,
+} from '../screens/companies/assessmentDetailsScreen'
+import {
   CompanyDetailsScreen,
   CompanyDetailsScreenProps,
 } from '../screens/companies/companyDetailsScreen'
@@ -28,6 +32,7 @@ export type RootStackProps = {
   CreateCompany?: CreateCompanyScreenProps
   CompanyDetailsScreen: CompanyDetailsScreenProps
   CreateAssessment?: CreateAssessmentScreenProps
+  AsseessmentDetailsScreen: AssessmentDetailsScreenProps
 }
 
 export const RootStack = () => {
@@ -50,6 +55,11 @@ export const RootStack = () => {
       <Root.Screen
         name="CreateAssessment"
         component={CreateAssessmentScreen}
+        options={{...modalWithBack}}
+      />
+      <Root.Screen
+        name="AsseessmentDetailsScreen"
+        component={AssessmentDetailsScreen}
         options={{...modalWithBack}}
       />
     </Root.Navigator>
