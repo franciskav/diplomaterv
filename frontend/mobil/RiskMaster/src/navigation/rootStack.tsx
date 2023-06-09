@@ -18,11 +18,11 @@ import {
 import {
   CreateAssessmentScreen,
   CreateAssessmentScreenProps,
-} from '../screens/companies/createAssessment'
+} from '../screens/companies/createAssessmentScreen'
 import {
   CreateCompanyScreen,
   CreateCompanyScreenProps,
-} from '../screens/companies/createCompany'
+} from '../screens/companies/createCompanyScreen'
 import {AuthStack} from './authStack'
 import {RootTab} from './rootTab'
 
