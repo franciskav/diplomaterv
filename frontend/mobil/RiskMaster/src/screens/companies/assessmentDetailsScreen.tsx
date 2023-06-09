@@ -245,7 +245,7 @@ const createStyles = (colors: Colors) => {
     contentContainer: {
       flexGrow: 1,
       paddingHorizontal: spaces.contentHorizontal,
-      paddingTop: spaces.normal,
+      paddingTop: spaces.contentVertical,
       paddingBottom: spaces.extraLarge,
     },
     separator: {
