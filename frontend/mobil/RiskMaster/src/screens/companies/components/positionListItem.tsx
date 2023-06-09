@@ -21,22 +21,50 @@ export const PositionListItem = (props: PositionListItemProps) => {
   const colors = useColors()
   const styles = createStyles(colors)
 
+  const getDotColor = (degree?: number) => {
+    switch (degree) {
+      case 0:
+        return {backgroundColor: colors.rigkLevel['zero']}
+      case 1:
+        return {backgroundColor: colors.rigkLevel['one']}
+      case 2:
+        return {backgroundColor: colors.rigkLevel['two']}
+      case 3:
+        return {backgroundColor: colors.rigkLevel['three']}
+      case 4:
+        return {backgroundColor: colors.rigkLevel['four']}
+      case 5:
+        return {backgroundColor: colors.rigkLevel['five']}
+      default:
+        return {backgroundColor: colors.rigkLevel['zero']}
+    }
+  }
+
+  const getLevelText = (degree?: number) => {
+    switch (degree) {
+      case 0:
+        return '0'
+      case 1:
+        return 'I'
+      case 2:
+        return 'II'
+      case 3:
+        return 'III'
+      case 4:
+        return 'IV'
+      case 5:
+        return 'V'
+      default:
+        return '-'
+    }
+  }
+
   const riskItem = (risk: RiskDto, index: number) => {
     return (
       <View style={[styles.riskItem, margins.mtSmall]} key={index}>
-        <View
-          style={[
-            margins.mrSmall,
-            {
-              height: 10,
-              width: 10,
-              borderRadius: 5,
-              backgroundColor: !risk.degree ? colors.divider : '#85C7F2',
-            },
-          ]}
-        />
+        <View style={[margins.mrSmall, styles.dot, getDotColor(risk.degree)]} />
         <Text style={textStyle.labelSecondary}>{risk.risk}</Text>
-        <Text style={[textStyle.small]}>{risk.degree ? ` II` : ' -'}</Text>
+        <Text style={[textStyle.small]}>{getLevelText(risk.degree)}</Text>
       </View>
     )
   }
@@ -89,6 +117,11 @@ const createStyles = (colors: Colors) => {
       flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    dot: {
+      height: 10,
+      width: 10,
+      borderRadius: 5,
     },
   })
   return styles

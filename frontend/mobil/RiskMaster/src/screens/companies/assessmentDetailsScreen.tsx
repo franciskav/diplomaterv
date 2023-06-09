@@ -34,14 +34,14 @@ const assessmentDetails: AssessmentDetailsDto = {
           risk: 'Kémiai kockázat:',
           degree: undefined,
         },
-        {
-          risk: 'Biológiai kockázat:',
-          degree: undefined,
-        },
-        {
-          risk: 'Pszichoszociális kockázat:',
-          degree: undefined,
-        },
+        // {
+        //   risk: 'Biológiai kockázat:',
+        //   degree: undefined,
+        // },
+        // {
+        //   risk: 'Pszichoszociális kockázat:',
+        //   degree: undefined,
+        // },
       ],
     },
     {
@@ -50,20 +50,20 @@ const assessmentDetails: AssessmentDetailsDto = {
       risks: [
         {
           risk: 'Fizikai kockázat:',
-          degree: undefined,
+          degree: 3,
         },
         {
           risk: 'Kémiai kockázat:',
           degree: undefined,
         },
-        {
-          risk: 'Biológiai kockázat:',
-          degree: undefined,
-        },
-        {
-          risk: 'Pszichoszociális kockázat:',
-          degree: undefined,
-        },
+        // {
+        //   risk: 'Biológiai kockázat:',
+        //   degree: undefined,
+        // },
+        // {
+        //   risk: 'Pszichoszociális kockázat:',
+        //   degree: undefined,
+        // },
       ],
     },
   ],
