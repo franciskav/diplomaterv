@@ -3,5 +3,5 @@ export interface AppConfig {
 }
 
 export const config: AppConfig = {
-  baseUrl: '',
+  baseUrl: 'http://192.168.0.137:3000/api/',
 }

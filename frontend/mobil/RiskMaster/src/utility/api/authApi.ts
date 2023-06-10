@@ -9,8 +9,13 @@ class AuthApi {
     return response.data
   }
 
-  public signUp = async (signUp: SignUpDto): Promise<void> => {
-    await Network.post('auth/signUp', signUp)
+  public signUp = async (signUp: SignUpDto): Promise<TokenResponseDto> => {
+    const response = await Network.post('auth/register', signUp)
+    return response.data
+  }
+
+  public logout = async (): Promise<void> => {
+    await Network.get('auth/logout')
   }
 }
 

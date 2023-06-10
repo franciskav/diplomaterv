@@ -14,6 +14,7 @@ export const strings = new LocalizedStrings({
           'Hiba történt az adatok mentése közben, kérjük próbálja meg újra!',
         loadError:
           'Hiba történt az adatok betöltése közben, kérjük próbálja meg újra!',
+        unexpectedError: 'Váratlan hiba történt, kérjük próbálja meg újra!',
       },
       buttons: {
         save: 'Mentés',
@@ -100,6 +101,14 @@ export const strings = new LocalizedStrings({
       riskPoint: 'Kockázat pontszám: ',
       riskDegree: 'Kockázat mértéke: ',
       proposedAction: 'Javasolt intézkedések',
+    },
+
+    notifications: {
+      title: 'Értesítések',
+    },
+    profile: {
+      title: 'Profil',
+      logout: 'Kijelentkezés',
     },
   },
 })

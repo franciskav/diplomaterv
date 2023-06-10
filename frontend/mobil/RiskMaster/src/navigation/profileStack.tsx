@@ -3,6 +3,7 @@ import {
   StackNavigationOptions,
 } from '@react-navigation/stack'
 import {colors} from '../constants/colors'
+import {strings} from '../constants/localization'
 import {textStyle} from '../constants/styles'
 import {ProfilenScreen} from '../screens/profile/profileScreen'
 
@@ -18,7 +19,7 @@ export const ProfileStack = () => {
       <Stack.Screen
         name="ProfileScreen"
         component={ProfilenScreen}
-        options={{...tabStackOptions}}
+        options={{...tabStackOptions, title: strings.profile.title}}
       />
     </Stack.Navigator>
   )
