@@ -7,12 +7,37 @@ import {colors} from '../constants/colors'
 import {icons} from '../constants/icons'
 import {spaces} from '../constants/spaces'
 import {textStyle} from '../constants/styles'
+import {
+  AssessmentDetailsScreen,
+  AssessmentDetailsScreenProps,
+} from '../screens/companies/assessmentDetailsScreen'
+import {
+  CompanyDetailsScreen,
+  CompanyDetailsScreenProps,
+} from '../screens/companies/companyDetailsScreen'
+import {
+  CreateAssessmentScreen,
+  CreateAssessmentScreenProps,
+} from '../screens/companies/createAssessmentScreen'
+import {
+  CreateCompanyScreen,
+  CreateCompanyScreenProps,
+} from '../screens/companies/createCompanyScreen'
+import {
+  PhysicalRiskScreen,
+  PhysicalRiskScreenProps,
+} from '../screens/companies/physicalRiskScreen'
 import {AuthStack} from './authStack'
 import {RootTab} from './rootTab'
 
 export type RootStackProps = {
   AuthStack: undefined
   RootTab: undefined
+  CreateCompany?: CreateCompanyScreenProps
+  CompanyDetailsScreen: CompanyDetailsScreenProps
+  CreateAssessment?: CreateAssessmentScreenProps
+  AsseessmentDetailsScreen: AssessmentDetailsScreenProps
+  PhysicalRiskScreen?: PhysicalRiskScreenProps
 }
 
 export const RootStack = () => {
@@ -22,6 +47,32 @@ export const RootStack = () => {
     <Root.Navigator screenOptions={defaultOptions}>
       <Root.Screen name="AuthStack" component={AuthStack} />
       <Root.Screen name="RootTab" component={RootTab} />
+      <Root.Screen
+        name="CreateCompany"
+        component={CreateCompanyScreen}
+        options={{...modalWithBack}}
+      />
+      <Root.Screen
+        name="CompanyDetailsScreen"
+        component={CompanyDetailsScreen}
+        options={{...modalWithBack}}
+      />
+      <Root.Screen
+        name="CreateAssessment"
+        component={CreateAssessmentScreen}
+        options={{...modalWithBack}}
+      />
+      <Root.Screen
+        name="AsseessmentDetailsScreen"
+        component={AssessmentDetailsScreen}
+        options={{...modalWithBack}}
+      />
+
+      <Root.Screen
+        name="PhysicalRiskScreen"
+        component={PhysicalRiskScreen}
+        options={{...modalWithBack, title: 'Targoncakezelő'}}
+      />
     </Root.Navigator>
   )
 }
@@ -48,7 +99,11 @@ const modalWithBack: StackNavigationOptions = {
   headerTitleStyle: textStyle.title,
   headerBackImage: p => (
     <Image
-      style={{margin: spaces.contentHorizontal, resizeMode: 'contain'}}
+      style={{
+        margin: spaces.contentHorizontal,
+        resizeMode: 'contain',
+        tintColor: colors.primary,
+      }}
       source={icons.arrow_back}
     />
   ),

@@ -18,10 +18,18 @@ export interface Colors {
     backgroundActive: string
     backgroundInactive: string
   }
+  rigkLevel: {
+    zero: string
+    one: string
+    two: string
+    three: string
+    four: string
+    five: string
+  }
 }
 
 export const colors: Colors = {
-  background: '#FAFDF6',
+  background: '#e6eeee',
   white: '#FFFFFF',
   black: '#000000',
   primary: '#127475',
@@ -40,10 +48,18 @@ export const colors: Colors = {
     backgroundActive: '#FFFFFF',
     backgroundInactive: '#DDDDDD',
   },
+  rigkLevel: {
+    zero: '#A3A3A3',
+    one: '#44D64C',
+    two: '#85C7F2',
+    three: '#FFE313',
+    four: '#FF6700',
+    five: '#DE1A1A',
+  },
 }
 
 export const darkColors: Colors = {
-  background: '#FAFDF6',
+  background: '#F2F6F6',
   white: '#FFFFFF',
   black: '#000000',
   primary: '#127475',
@@ -61,5 +77,13 @@ export const darkColors: Colors = {
     text: '#080F0F',
     backgroundActive: '#FFFFFF',
     backgroundInactive: '#DDDDDD',
+  },
+  rigkLevel: {
+    zero: '#A3A3A3',
+    one: '#44D64C',
+    two: '#85C7F2',
+    three: '#FFE313',
+    four: '#FF6700',
+    five: '#DE1A1A',
   },
 }

@@ -18,6 +18,11 @@ export const textStyle = StyleSheet.create({
     fontSize: fontSizes.label,
     color: colors.text.light,
   },
+  labelSecondary: {
+    fontFamily: fonts.medium,
+    fontSize: fontSizes.label,
+    color: colors.text.primary,
+  },
   placeholder: {
     fontFamily: fonts.regular,
     fontSize: fontSizes.medium,
@@ -38,6 +43,11 @@ export const textStyle = StyleSheet.create({
     fontSize: fontSizes.medium,
     color: colors.text.primary,
   },
+  mediumBold: {
+    fontFamily: fonts.bold,
+    fontSize: fontSizes.medium,
+    color: colors.text.primary,
+  },
   button: {
     fontFamily: fonts.bold,
     fontSize: fontSizes.button,
@@ -46,6 +56,11 @@ export const textStyle = StyleSheet.create({
   body: {
     fontFamily: fonts.regular,
     fontSize: fontSizes.normal,
+    color: colors.text.primary,
+  },
+  small: {
+    fontFamily: fonts.regular,
+    fontSize: fontSizes.label,
     color: colors.text.primary,
   },
   center: {

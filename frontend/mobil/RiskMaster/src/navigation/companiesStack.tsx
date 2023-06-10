@@ -3,6 +3,7 @@ import {
   StackNavigationOptions,
 } from '@react-navigation/stack'
 import {colors} from '../constants/colors'
+import {strings} from '../constants/localization'
 import {textStyle} from '../constants/styles'
 import {CompaniesScreen} from '../screens/companies/companiesScreen'
 
@@ -18,7 +19,7 @@ export const CompaniesStack = () => {
       <Stack.Screen
         name="CompaniesScreen"
         component={CompaniesScreen}
-        options={{...tabStackOptions}}
+        options={{...tabStackOptions, title: strings.companies.title}}
       />
     </Stack.Navigator>
   )
