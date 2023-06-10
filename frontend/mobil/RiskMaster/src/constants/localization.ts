@@ -16,6 +16,9 @@ export const strings = new LocalizedStrings({
           'Hiba történt az adatok betöltése közben, kérjük próbálja meg újra!',
         unexpectedError: 'Váratlan hiba történt, kérjük próbálja meg újra!',
       },
+      succes: {
+        title: 'Sikeres művelet',
+      },
       buttons: {
         save: 'Mentés',
         cancel: 'Mégse',
@@ -64,6 +67,7 @@ export const strings = new LocalizedStrings({
       emptyList: 'A megadott keresési feltételek mellet nem található cég',
       addItem: '+ Új hozzáadása',
       lastAssessment: 'Utolsó kockázatelenzés',
+      listError: 'A cégek betöltése sikertelen',
     },
     createCompany: {
       createTitle: 'Cég létrehozása',

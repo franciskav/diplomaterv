@@ -30,11 +30,11 @@ app.use(cookieParser())
 // Importing all routes
 const sample = require('./routes/sample')
 const auth = require('./routes/auth')
-//const company = require('./routes/company')
+const company = require('./routes/company')
 
 app.use('/api', sample)
 app.use('/api/auth', auth)
-//app.use('/api/company', company)
+app.use('/api/company', company)
 
 // Handle unhandled routes
 app.all('*', (req, res, next) => {

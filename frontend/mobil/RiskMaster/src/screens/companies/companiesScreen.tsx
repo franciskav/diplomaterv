@@ -1,7 +1,8 @@
 import {useNavigation} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
 import dayjs from 'dayjs'
-import {useEffect, useState} from 'react'
+import {debounce} from 'lodash'
+import {useContext, useEffect, useRef, useState} from 'react'
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native'
 import {IconButton} from '../../components/buttons/iconButton'
 import {ListButton} from '../../components/buttons/listButton'
@@ -12,6 +13,7 @@ import {icons} from '../../constants/icons'
 import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
+import {CompanyContext} from '../../context/companyProvider'
 import {useColors} from '../../hook/colorsHook'
 import {CompanyDto} from '../../model/companyDto'
 import {RootStackProps} from '../../navigation/rootStack'
@@ -45,6 +47,8 @@ export const CompaniesScreen = () => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackProps>>()
 
+  const companyContext = useContext(CompanyContext)
+
   const [searchText, setSearchText] = useState<string>('')
 
   useEffect(() => {
@@ -64,6 +68,30 @@ export const CompaniesScreen = () => {
     })
   }, [])
 
+  const loadCompanies = () => {
+    companyContext.loadCompanies()
+  }
+
+  useEffect(() => {
+    loadCompanies()
+  }, [])
+
+  useEffect(() => {
+    loadCompanies()
+  }, [companyContext.companiesSearcText])
+
+  const debouncedSearch = useRef(
+    debounce(async text => {
+      companyContext.setCompaniesSearcText(text === '' ? undefined : text)
+    }, 1000),
+  ).current
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [debouncedSearch])
+
   const renderHeader = () => {
     return (
       <View style={styles.searcRow}>
@@ -72,8 +100,8 @@ export const CompaniesScreen = () => {
           textInputProps={{
             value: searchText,
             onChangeText: value => {
-              //TODO: implement
               setSearchText(value)
+              debouncedSearch(value)
             },
             returnKeyType: 'done',
             placeholder: strings.common.search,
@@ -148,6 +176,7 @@ export const CompaniesScreen = () => {
             //TODO: implement
           },
         }}
+        error={companyContext.companiesError}
       />
     )
   }
@@ -159,10 +188,12 @@ export const CompaniesScreen = () => {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
-        data={data}
+        data={companyContext.companies}
         renderItem={renderItem}
         ItemSeparatorComponent={itemSeparator}
         ListEmptyComponent={listEmptyComponent}
+        refreshing={companyContext.isLoading}
+        onRefresh={loadCompanies}
         keyboardShouldPersistTaps={'handled'}
       />
     </View>

@@ -1,6 +1,6 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
-import {useEffect, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {StyleSheet, Text, View} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
@@ -12,6 +12,7 @@ import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
 import {textStyle} from '../../constants/styles'
+import {CompanyContext} from '../../context/companyProvider'
 import {useColors} from '../../hook/colorsHook'
 import {RootStackProps} from '../../navigation/rootStack'
 import {ValidationHelper} from '../../utility/helpers/validationHelper'
@@ -38,6 +39,8 @@ export const CreateCompanyScreen = () => {
 
   const route = useRoute<RouteProp<RootStackProps, 'CreateCompany'>>()
   const navigation = useNavigation<StackNavigationProp<RootStackProps>>()
+
+  const companyContext = useContext(CompanyContext)
 
   //TODO: set default values if update
   const [companyName, setCompanyName] = useState<string>('')
@@ -97,9 +100,21 @@ export const CreateCompanyScreen = () => {
   }
 
   const onSavePress = () => {
-    //navigation.goBack()
     if (isValidForm()) {
-      //TODO: save or update company
+      //TODO: update company
+      companyContext.createCompany(
+        {
+          companyName,
+          zipCode,
+          city,
+          street,
+          door,
+          contactName,
+          email,
+          phone,
+        },
+        navigation.goBack,
+      )
     }
   }
 
