@@ -6,6 +6,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import {CustomButton} from '../../components/buttons/button'
 import {CustomTextInput} from '../../components/inputs/textInput'
+import {Loader} from '../../components/loader'
 import {Colors} from '../../constants/colors'
 import {icons} from '../../constants/icons'
 import {strings} from '../../constants/localization'
@@ -81,17 +82,18 @@ export const SignUpScreen = () => {
   }
 
   const onSignUpPressed = () => {
-    navigation.replace('RootTab')
     if (isValidForm()) {
       authContext.signUp(
         {
           company: company,
-          firsName: firsName,
+          firstName: firsName,
           lastName: lastName,
           email: email,
           password: password,
         },
-        navigation.goBack,
+        () => {
+          navigation.replace('RootTab')
+        },
       )
     }
   }
@@ -211,6 +213,7 @@ export const SignUpScreen = () => {
         type="primary"
         style={margins.mbNormal}
       />
+      {authContext.isLoading && <Loader isModal />}
     </KeyboardAwareScrollView>
   )
 }

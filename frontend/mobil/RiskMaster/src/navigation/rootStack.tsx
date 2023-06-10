@@ -7,6 +7,7 @@ import {colors} from '../constants/colors'
 import {icons} from '../constants/icons'
 import {spaces} from '../constants/spaces'
 import {textStyle} from '../constants/styles'
+import {SplashScreen} from '../screens/auth/splashScreen'
 import {
   AssessmentDetailsScreen,
   AssessmentDetailsScreenProps,
@@ -31,6 +32,7 @@ import {AuthStack} from './authStack'
 import {RootTab} from './rootTab'
 
 export type RootStackProps = {
+  SplashScreen: undefined
   AuthStack: undefined
   RootTab: undefined
   CreateCompany?: CreateCompanyScreenProps
@@ -45,6 +47,7 @@ export const RootStack = () => {
 
   return (
     <Root.Navigator screenOptions={defaultOptions}>
+      <Root.Screen name="SplashScreen" component={SplashScreen} />
       <Root.Screen name="AuthStack" component={AuthStack} />
       <Root.Screen name="RootTab" component={RootTab} />
       <Root.Screen

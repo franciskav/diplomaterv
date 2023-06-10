@@ -14,7 +14,7 @@ class AsyncStorageService {
     ])
   }
 
-  public clearAuthinfo = async () => {
+  public clearAuthInfo = async () => {
     await AsyncStorage.multiRemove([keys.ACCESS_TOKEN, keys.REFRESH_TOKEN])
   }
 

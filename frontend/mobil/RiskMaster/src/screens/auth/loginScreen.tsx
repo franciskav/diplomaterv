@@ -1,12 +1,13 @@
 import {useNavigation} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
-import {useContext, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {Image, StyleSheet, Text, View} from 'react-native'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {CustomButton} from '../../components/buttons/button'
 import {CustomTextInput} from '../../components/inputs/textInput'
+import {Loader} from '../../components/loader'
 import {Colors} from '../../constants/colors'
 import {fontSizes, fonts} from '../../constants/fonts'
 import {icons} from '../../constants/icons'
@@ -14,7 +15,7 @@ import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
 import {textStyle} from '../../constants/styles'
-import {AuthContext} from '../../context/authProvider'
+import {AuthContext, AuthStatus} from '../../context/authProvider'
 import {useColors} from '../../hook/colorsHook'
 import {AuthStackProps} from '../../navigation/authStack'
 import {RootStackProps} from '../../navigation/rootStack'
@@ -39,6 +40,15 @@ export const LoginScreen = () => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
   const [errors, setErrors] = useState<LoginErrors>({})
 
+  useEffect(() => {
+    if (authContext.authStatus === AuthStatus.LOGGED_IN) {
+      onLoggedIn()
+    }
+  }, [authContext.authStatus])
+
+  const onLoggedIn = async () => {
+    navigation.replace('RootTab')
+  }
   const isValidForm = () => {
     const errors: LoginErrors = {}
 
@@ -58,7 +68,6 @@ export const LoginScreen = () => {
   }
 
   const onLoginPressed = () => {
-    navigation.replace('RootTab')
     if (isValidForm()) {
       authContext.login({
         email: email,
@@ -135,6 +144,7 @@ export const LoginScreen = () => {
           </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
+      {authContext.isLoading && <Loader />}
     </SafeAreaView>
   )
 }

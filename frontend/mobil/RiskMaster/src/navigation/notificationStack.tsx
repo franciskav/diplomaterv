@@ -3,6 +3,7 @@ import {
   StackNavigationOptions,
 } from '@react-navigation/stack'
 import {colors} from '../constants/colors'
+import {strings} from '../constants/localization'
 import {textStyle} from '../constants/styles'
 import {NotificationsScreen} from '../screens/notification/notificationsScreen'
 
@@ -18,7 +19,7 @@ export const NotificationStack = () => {
       <Stack.Screen
         name="NotificationsScreen"
         component={NotificationsScreen}
-        options={{...tabStackOptions}}
+        options={{...tabStackOptions, title: strings.notifications.title}}
       />
     </Stack.Navigator>
   )

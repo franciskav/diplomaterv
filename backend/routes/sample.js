@@ -4,6 +4,12 @@ const router = express.Router()
 //Import example controller methods
 const {getSamples} = require('../controllers/sampleController')
 
-router.route('/sample').get(getSamples)
+const {isAuthenticatedUser, authorizeRoles} = require('../middlewares/auth')
+
+router
+  .route('/sample')
+  .get(isAuthenticatedUser, authorizeRoles('company_admin'), getSamples)
+
+//router.route('/sample').get(getSamples)
 
 module.exports = router
