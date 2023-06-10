@@ -23,6 +23,10 @@ import {
   CreateCompanyScreen,
   CreateCompanyScreenProps,
 } from '../screens/companies/createCompanyScreen'
+import {
+  PhysicalRiskScreen,
+  PhysicalRiskScreenProps,
+} from '../screens/companies/physicalRiskScreen'
 import {AuthStack} from './authStack'
 import {RootTab} from './rootTab'
 
@@ -33,6 +37,7 @@ export type RootStackProps = {
   CompanyDetailsScreen: CompanyDetailsScreenProps
   CreateAssessment?: CreateAssessmentScreenProps
   AsseessmentDetailsScreen: AssessmentDetailsScreenProps
+  PhysicalRiskScreen?: PhysicalRiskScreenProps
 }
 
 export const RootStack = () => {
@@ -61,6 +66,12 @@ export const RootStack = () => {
         name="AsseessmentDetailsScreen"
         component={AssessmentDetailsScreen}
         options={{...modalWithBack}}
+      />
+
+      <Root.Screen
+        name="PhysicalRiskScreen"
+        component={PhysicalRiskScreen}
+        options={{...modalWithBack, title: 'Targoncakezelő'}}
       />
     </Root.Navigator>
   )

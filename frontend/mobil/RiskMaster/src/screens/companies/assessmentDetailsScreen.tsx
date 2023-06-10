@@ -170,6 +170,7 @@ export const AssessmentDetailsScreen = () => {
         item={row.item}
         onPress={() => {
           //TODO: implement
+          navigation.push('PhysicalRiskScreen')
         }}
         onEditPress={() => {
           navigation.push('CreateAssessment', {assessmentId: row.item.id})

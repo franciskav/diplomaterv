@@ -81,7 +81,7 @@ export const strings = new LocalizedStrings({
     companyDetails: {
       numberOfPositions: 'Munkakörök',
       riskLevels: 'Kockázati szintek',
-      emptyList: 'A megadott keresési feltételek mellet nem található cég',
+      emptyList: 'A megadott keresési feltételek mellet nem található elemzés',
       addItem: '+ Új hozzáadása',
     },
     createAssessment: {
@@ -90,6 +90,16 @@ export const strings = new LocalizedStrings({
       name: 'Név',
       date: 'Időpont',
       type: 'Helyszín típus',
+    },
+
+    physicalRisk: {
+      risks: 'Kockázatok',
+      photos: 'Fényképek',
+      emptyList: 'Nem található kockázat',
+      addItem: '+ Új hozzáadása',
+      riskPoint: 'Kockázat pontszám: ',
+      riskDegree: 'Kockázat mértéke: ',
+      proposedAction: 'Javasolt intézkedések',
     },
   },
 })

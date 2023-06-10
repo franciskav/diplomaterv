@@ -43,6 +43,11 @@ export const textStyle = StyleSheet.create({
     fontSize: fontSizes.medium,
     color: colors.text.primary,
   },
+  mediumBold: {
+    fontFamily: fonts.bold,
+    fontSize: fontSizes.medium,
+    color: colors.text.primary,
+  },
   button: {
     fontFamily: fonts.bold,
     fontSize: fontSizes.button,
