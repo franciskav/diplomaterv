@@ -5,6 +5,6 @@ export interface AssessmentDto {
   name: string
   date: string
   locationType: string //TODO: create enum
-  numberOfPositions: number
-  riskLevels: RiskLevelsDto[]
+  numberOfPositions?: number
+  riskLevels?: RiskLevelsDto[]
 }

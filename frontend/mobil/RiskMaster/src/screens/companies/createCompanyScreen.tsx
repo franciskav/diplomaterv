@@ -43,7 +43,6 @@ export const CreateCompanyScreen = () => {
 
   const companyContext = useContext(CompanyContext)
 
-  //TODO: set default values if update
   const [companyName, setCompanyName] = useState<string>('')
   const [zipCode, setZipCode] = useState<string>('')
   const [city, setCity] = useState<string>('')

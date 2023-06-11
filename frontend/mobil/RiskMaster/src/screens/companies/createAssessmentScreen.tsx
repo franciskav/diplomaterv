@@ -1,6 +1,6 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
-import {useEffect, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {StyleSheet, View} from 'react-native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
@@ -11,6 +11,7 @@ import {Colors} from '../../constants/colors'
 import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
+import {AssessmentContext} from '../../context/assessmentProvider'
 import {useColors} from '../../hook/colorsHook'
 import {RootStackProps} from '../../navigation/rootStack'
 
@@ -21,7 +22,8 @@ interface Errors {
 }
 
 export interface CreateAssessmentScreenProps {
-  assessmentId: string
+  companyId: string
+  assessmentId?: string
 }
 
 export const CreateAssessmentScreen = () => {
@@ -32,7 +34,8 @@ export const CreateAssessmentScreen = () => {
   const route = useRoute<RouteProp<RootStackProps, 'CreateAssessment'>>()
   const navigation = useNavigation<StackNavigationProp<RootStackProps>>()
 
-  //TODO: set default values if update
+  const assessmentContext = useContext(AssessmentContext)
+
   const [name, setName] = useState<string>('')
   const [date, setDate] = useState<string>('')
   const [type, setType] = useState<string>('')
@@ -45,6 +48,20 @@ export const CreateAssessmentScreen = () => {
         : strings.createAssessment.createTitle,
     })
   }, [])
+
+  useEffect(() => {
+    if (route.params?.assessmentId) {
+      assessmentContext.loadAssessmentDetails(route.params.assessmentId)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (route.params?.assessmentId && assessmentContext.assessmentDetails) {
+      setName(assessmentContext.assessmentDetails.name)
+      setDate(assessmentContext.assessmentDetails.date)
+      setType(assessmentContext.assessmentDetails.locationType)
+    }
+  }, [assessmentContext.assessmentDetails])
 
   const isValidForm = () => {
     const errors: Errors = {}
@@ -69,7 +86,27 @@ export const CreateAssessmentScreen = () => {
   const onSavePress = () => {
     //navigation.goBack()
     if (isValidForm()) {
-      //TODO: save or update company
+      if (route.params?.assessmentId) {
+        assessmentContext.updateAssessment(
+          route.params.assessmentId,
+          {
+            name: name,
+            date: date,
+            locationType: type,
+          },
+          navigation.goBack,
+        )
+      } else if (route.params?.companyId) {
+        assessmentContext.createAssessment(
+          route.params?.companyId,
+          {
+            name: name,
+            date: date,
+            locationType: type,
+          },
+          navigation.goBack,
+        )
+      }
     }
   }
 

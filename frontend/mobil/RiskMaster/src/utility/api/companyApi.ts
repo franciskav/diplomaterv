@@ -24,7 +24,7 @@ class CompanyApi {
   public updateCompany = async (
     companyId: string,
     createCompany: CreateCompanyDto,
-  ): Promise<CompanyDto> => {
+  ): Promise<CompanyDetailsDto> => {
     const response = await Network.put(
       `company/user/company/${companyId}`,
       createCompany,

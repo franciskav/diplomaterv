@@ -110,10 +110,14 @@ export const CompanyProvider: React.FC<PropsWithChildren> = ({children}) => {
     setIsLoading(true)
     try {
       const response = await companyApi.updateCompany(companyId, createCompany)
-      console.log('RESPONSE', response)
       const index = companies.findIndex(company => company.id === companyId)
-      companies[index] = response
+      companies[index] = {
+        id: companyId,
+        companyName: response.name,
+        lastAssessment: response.lastAssessment,
+      }
       setCompanies([...companies])
+      setCompanyDetails(response)
       success?.()
     } catch (error) {
       Alert.alert(

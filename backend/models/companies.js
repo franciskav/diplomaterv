@@ -38,6 +38,9 @@ const companySchema = new mongoose.Schema({
     type: String,
     require: [true, 'Please enter your phone'],
   },
+  lastAssessment: {
+    type: String,
+  },
 })
 
 module.exports = mongoose.model('Company', companySchema)

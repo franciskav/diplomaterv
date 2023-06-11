@@ -61,16 +61,20 @@ export const AssessmentListItem = (props: AssessmentListItemProps) => {
       </View>
       <Text style={[textStyle.labelSecondary, margins.mbNormal]}>
         {`${strings.companyDetails.numberOfPositions}: `}
-        <Text style={textStyle.body}>{props.item.numberOfPositions}</Text>
+        <Text style={textStyle.body}>{props.item.numberOfPositions ?? 0}</Text>
       </Text>
-      <Text style={[textStyle.labelSecondary, margins.mbNormal]}>
-        {`${strings.companyDetails.riskLevels}: `}
-      </Text>
-      <View style={[styles.riskContainer]}>
-        {props.item.riskLevels.map((riskLevel, index) =>
-          riskItem(riskLevel, index),
-        )}
-      </View>
+      {props.item.riskLevels && (
+        <View>
+          <Text style={[textStyle.labelSecondary, margins.mbNormal]}>
+            {`${strings.companyDetails.riskLevels}: `}
+          </Text>
+          <View style={[styles.riskContainer]}>
+            {props.item.riskLevels.map((riskLevel, index) =>
+              riskItem(riskLevel, index),
+            )}
+          </View>
+        </View>
+      )}
     </Card>
   )
 }

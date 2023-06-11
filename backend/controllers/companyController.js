@@ -6,7 +6,6 @@ const APIFilters = require('../utils/apiFilters')
 
 exports.getAllUserCompany = catchAsyncErrors(async (req, res, next) => {
   req.query = {...req.query, userId: req.body.userId}
-  console.log(req.query)
   const apiFilters = new APIFilters(Company.find(), req.query)
     .filter()
     .sort()
@@ -19,7 +18,7 @@ exports.getAllUserCompany = catchAsyncErrors(async (req, res, next) => {
   const data = companies.map(company => ({
     id: company._id,
     companyName: company.companyName,
-    lastAssessment: null,
+    lastAssessment: company.lastAssessment,
   }))
 
   res.status(200).json({
@@ -55,14 +54,18 @@ exports.updateUserCompany = catchAsyncErrors(async (req, res, next) => {
 
   const data = {
     id: company._id,
-    companyName: company.companyName,
-    zipCode: company.zipCode,
-    city: company.city,
-    street: company.street,
-    door: company.door,
-    contactName: company.contactName,
-    email: company.email,
-    phone: company.phone,
+    name: company.companyName,
+    address: {
+      zipCode: company.zipCode,
+      city: company.city,
+      street: company.street,
+      door: company.door,
+    },
+    contact: {
+      name: company.contactName,
+      email: company.email,
+      phone: company.phone,
+    },
     lastAssessment: null,
   }
 

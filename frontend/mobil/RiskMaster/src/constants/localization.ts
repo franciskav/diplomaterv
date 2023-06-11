@@ -90,6 +90,7 @@ export const strings = new LocalizedStrings({
       riskLevels: 'Kockázati szintek',
       emptyList: 'A megadott keresési feltételek mellet nem található elemzés',
       addItem: '+ Új hozzáadása',
+      listError: 'Az elemzések betöltése sikertelen',
     },
     createAssessment: {
       createTitle: 'Új kockázatelemzés',
