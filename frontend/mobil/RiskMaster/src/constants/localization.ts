@@ -14,6 +14,8 @@ export const strings = new LocalizedStrings({
           'Hiba történt az adatok mentése közben, kérjük próbálja meg újra!',
         loadError:
           'Hiba történt az adatok betöltése közben, kérjük próbálja meg újra!',
+        deleteError:
+          'Hiba történt az adatok törlése közben, kérjük próbálja meg újra!',
         unexpectedError: 'Váratlan hiba történt, kérjük próbálja meg újra!',
       },
       succes: {

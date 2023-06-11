@@ -1,6 +1,7 @@
 import React, {createContext, PropsWithChildren, useState} from 'react'
 import {Alert} from 'react-native'
 import {strings} from '../constants/localization'
+import {CompanyDetailsDto} from '../model/companyDetailsDto'
 import {CompanyDto} from '../model/companyDto'
 import {CreateCompanyDto} from '../model/createCompanyDto'
 import companyApi from '../utility/api/companyApi'
@@ -11,7 +12,17 @@ interface CompanyContextProps {
   companiesError?: string
   companiesSearcText?: string
   setCompaniesSearcText: (search?: string) => void
+  companiesSort?: string
+  setCompaniesSort: (sort?: string) => void
   createCompany: (createCompany: CreateCompanyDto, success?: () => void) => void
+  updateCompany: (
+    companyId: string,
+    createCompany: CreateCompanyDto,
+    success?: () => void,
+  ) => void
+  deleteCompany: (companyId: string) => void
+  companyDetails?: CompanyDetailsDto
+  loadCompanyDetails: (companyId: string, success?: () => void) => void
   isLoading: boolean
 }
 
@@ -25,7 +36,21 @@ export const CompanyContext = createContext<CompanyContextProps>({
   setCompaniesSearcText: () => {
     throw new Error()
   },
+  companiesSort: undefined,
+  setCompaniesSort: () => {
+    throw new Error()
+  },
   createCompany: () => {
+    throw new Error()
+  },
+  updateCompany: () => {
+    throw new Error()
+  },
+  deleteCompany: () => {
+    throw new Error()
+  },
+  companyDetails: undefined,
+  loadCompanyDetails: () => {
     throw new Error()
   },
   isLoading: false,
@@ -33,16 +58,23 @@ export const CompanyContext = createContext<CompanyContextProps>({
 
 export const CompanyProvider: React.FC<PropsWithChildren> = ({children}) => {
   const [companies, setCompanies] = useState<CompanyDto[]>([])
+  const [companyDetails, setCompanyDetails] = useState<
+    CompanyDetailsDto | undefined
+  >()
   const [companiesError, setCompaniesError] = useState<string | undefined>()
   const [companiesSearcText, setCompaniesSearcText] = useState<
     string | undefined
   >()
+  const [companiesSort, setCompaniesSort] = useState<string | undefined>()
   const [isLoading, setIsLoading] = useState(false)
 
   const loadCompanies = async () => {
     setIsLoading(true)
     try {
-      const response = await companyApi.getCompanies(companiesSearcText)
+      const response = await companyApi.getCompanies(
+        companiesSearcText,
+        companiesSort,
+      )
       console.log('response', response)
       setCompanies(response)
     } catch (error) {
@@ -70,6 +102,64 @@ export const CompanyProvider: React.FC<PropsWithChildren> = ({children}) => {
     setIsLoading(false)
   }
 
+  const updateCompany = async (
+    companyId: string,
+    createCompany: CreateCompanyDto,
+    success?: () => void,
+  ) => {
+    setIsLoading(true)
+    try {
+      const response = await companyApi.updateCompany(companyId, createCompany)
+      console.log('RESPONSE', response)
+      const index = companies.findIndex(company => company.id === companyId)
+      companies[index] = response
+      setCompanies([...companies])
+      success?.()
+    } catch (error) {
+      Alert.alert(
+        strings.common.errors.attention,
+        strings.common.errors.saveError,
+      )
+    }
+    setIsLoading(false)
+  }
+
+  const deleteCompany = async (companyId: string, success?: () => void) => {
+    setIsLoading(true)
+    try {
+      await companyApi.deleteCompany(companyId)
+      setCompanies(companies.filter(company => company.id !== companyId))
+      success?.()
+    } catch (error) {
+      Alert.alert(
+        strings.common.errors.attention,
+        strings.common.errors.deleteError,
+      )
+    }
+    setIsLoading(false)
+  }
+
+  const loadCompanyDetails = async (
+    companyId: string,
+    success?: () => void,
+  ) => {
+    setIsLoading(true)
+    try {
+      const response = await companyApi.getCompanyDetails(companyId)
+      setCompanyDetails(response)
+      setIsLoading(false)
+
+      success?.()
+    } catch (error) {
+      setCompanyDetails(undefined)
+      Alert.alert(
+        strings.common.errors.attention,
+        strings.common.errors.loadError,
+      )
+    }
+    setIsLoading(false)
+  }
+
   return (
     <CompanyContext.Provider
       value={{
@@ -79,7 +169,13 @@ export const CompanyProvider: React.FC<PropsWithChildren> = ({children}) => {
         companiesError,
         companiesSearcText,
         setCompaniesSearcText,
+        companiesSort,
+        setCompaniesSort,
         createCompany,
+        updateCompany,
+        deleteCompany,
+        companyDetails,
+        loadCompanyDetails,
       }}>
       {children}
     </CompanyContext.Provider>

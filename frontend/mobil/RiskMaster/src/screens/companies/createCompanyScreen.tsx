@@ -7,6 +7,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import {BottomCard} from '../../components/cards/bottomCard'
 import {Divider} from '../../components/divider'
 import {CustomTextInput} from '../../components/inputs/textInput'
+import {Loader} from '../../components/loader'
 import {Colors} from '../../constants/colors'
 import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
@@ -61,6 +62,25 @@ export const CreateCompanyScreen = () => {
     })
   }, [])
 
+  useEffect(() => {
+    if (route.params?.companyId) {
+      companyContext.loadCompanyDetails(route.params.companyId)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (route.params?.companyId && companyContext.companyDetails) {
+      setCompanyName(companyContext.companyDetails.name)
+      setZipCode(companyContext.companyDetails.address.zipCode)
+      setCity(companyContext.companyDetails.address.city)
+      setStreet(companyContext.companyDetails.address.street)
+      setDoor(companyContext.companyDetails.address.door ?? '')
+      setContactName(companyContext.companyDetails.contact.name)
+      setEmail(companyContext.companyDetails.contact.email)
+      setPhone(companyContext.companyDetails.contact.phone)
+    }
+  }, [companyContext.companyDetails])
+
   const isValidForm = () => {
     const errors: Errors = {}
 
@@ -101,20 +121,36 @@ export const CreateCompanyScreen = () => {
 
   const onSavePress = () => {
     if (isValidForm()) {
-      //TODO: update company
-      companyContext.createCompany(
-        {
-          companyName,
-          zipCode,
-          city,
-          street,
-          door,
-          contactName,
-          email,
-          phone,
-        },
-        navigation.goBack,
-      )
+      if (route.params?.companyId) {
+        companyContext.updateCompany(
+          route.params.companyId,
+          {
+            companyName,
+            zipCode,
+            city,
+            street,
+            door,
+            contactName,
+            email,
+            phone,
+          },
+          navigation.goBack,
+        )
+      } else {
+        companyContext.createCompany(
+          {
+            companyName,
+            zipCode,
+            city,
+            street,
+            door,
+            contactName,
+            email,
+            phone,
+          },
+          navigation.goBack,
+        )
+      }
     }
   }
 
@@ -270,6 +306,7 @@ export const CreateCompanyScreen = () => {
         }}
         safeArea
       />
+      {companyContext.isLoading && <Loader />}
     </View>
   )
 }
