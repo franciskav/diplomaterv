@@ -75,8 +75,8 @@ export const CompanyProvider: React.FC<PropsWithChildren> = ({children}) => {
         companiesSearcText,
         companiesSort,
       )
-      console.log('response', response)
       setCompanies(response)
+      setCompaniesError(undefined)
     } catch (error) {
       setCompanies([])
       setCompaniesError(strings.companies.listError)
