@@ -83,6 +83,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
     } catch (error) {
       console.log(error)
     }
+    asyncStorageService.clearAuthInfo()
     setAuthStatus(AuthStatus.LOGGED_OUT)
     setIsLoading(false)
     callback()
@@ -93,6 +94,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({children}) => {
     const accessToken = await asyncStorageService.getAccessToken()
     if (!accessToken) {
       setAuthStatus(AuthStatus.LOGGED_OUT)
+      asyncStorageService.clearAuthInfo()
     } else {
       setAuthStatus(AuthStatus.LOGGED_IN)
     }
