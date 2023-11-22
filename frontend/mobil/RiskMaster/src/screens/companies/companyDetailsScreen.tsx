@@ -1,7 +1,7 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
-import dayjs from 'dayjs'
-import {useContext, useEffect, useState} from 'react'
+import {debounce} from 'lodash'
+import {useContext, useEffect, useRef, useState} from 'react'
 import {
   FlatList,
   ListRenderItemInfo,
@@ -25,67 +25,6 @@ import {useColors} from '../../hook/colorsHook'
 import {AssessmentDto} from '../../model/assessmentDto'
 import {RootStackProps} from '../../navigation/rootStack'
 import {AssessmentListItem} from './components/assessmentListItem'
-
-const assessments: AssessmentDto[] = [
-  {
-    id: '1',
-    name: 'Csiszolókorong raktár',
-    date: dayjs('2023-04-22').toString(),
-    locationType: 'Raktár',
-    numberOfPositions: 2,
-    riskLevels: [
-      {
-        level: 'I',
-        percent: 0.85,
-      },
-      {
-        level: 'II',
-        percent: 0.08,
-      },
-      {
-        level: 'III',
-        percent: 0.05,
-      },
-      {
-        level: 'IV',
-        percent: 0.01,
-      },
-      {
-        level: 'V',
-        percent: 0.01,
-      },
-    ],
-  },
-  {
-    id: '2',
-    name: 'Iroda',
-    date: dayjs('2023-02-13').toString(),
-    locationType: 'Iroda',
-    numberOfPositions: 1,
-    riskLevels: [
-      {
-        level: 'I',
-        percent: 0.94,
-      },
-      {
-        level: 'II',
-        percent: 0.01,
-      },
-      {
-        level: 'III',
-        percent: 0.05,
-      },
-      {
-        level: 'IV',
-        percent: 0,
-      },
-      {
-        level: 'V',
-        percent: 0,
-      },
-    ],
-  },
-]
 
 export interface CompanyDetailsScreenProps {
   companyId: string
@@ -127,7 +66,6 @@ export const CompanyDetailsScreen = () => {
             size="small"
             icon={icons.sort}
             onPress={() => {
-              //TODO: implement
               setIsSearchOpen(!isSearchOpen)
             }}
           />
@@ -143,7 +81,22 @@ export const CompanyDetailsScreen = () => {
 
   useEffect(() => {
     loadData()
-  }, [])
+  }, [
+    assessmentContext.assessmentsSearcText,
+    assessmentContext.assessmentsSort,
+  ])
+
+  const debouncedSearch = useRef(
+    debounce(async text => {
+      assessmentContext.setAssessmentsSearcText(text === '' ? undefined : text)
+    }, 1000),
+  ).current
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [debouncedSearch])
 
   const renderHeader = () => {
     return (
@@ -153,8 +106,8 @@ export const CompanyDetailsScreen = () => {
           textInputProps={{
             value: searchText,
             onChangeText: value => {
-              //TODO: implement
               setSearchText(value)
+              debouncedSearch(value)
             },
             returnKeyType: 'done',
             placeholder: strings.common.search,
@@ -162,29 +115,34 @@ export const CompanyDetailsScreen = () => {
         />
         <ListButton
           icon={icons.sort}
+          selected={assessmentContext.assessmentsSort}
           data={[
             {
               name: strings.common.sort.nameIncreasing,
+              value: 'name',
               onPress: () => {
-                //TODO: implement
+                assessmentContext.setAssessmentsSort('name')
               },
             },
             {
               name: strings.common.sort.nameDecreasing,
+              value: '-name',
               onPress: () => {
-                //TODO: implement
+                assessmentContext.setAssessmentsSort('-name')
               },
             },
             {
               name: strings.common.sort.dateIncreasing,
+              value: 'date',
               onPress: () => {
-                //TODO: implement
+                assessmentContext.setAssessmentsSort('date')
               },
             },
             {
               name: strings.common.sort.dateDecreasing,
+              value: '-date',
               onPress: () => {
-                //TODO: implement
+                assessmentContext.setAssessmentsSort('-date')
               },
             },
           ]}

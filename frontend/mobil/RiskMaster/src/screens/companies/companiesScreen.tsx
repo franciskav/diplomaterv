@@ -50,10 +50,6 @@ export const CompaniesScreen = () => {
 
   useEffect(() => {
     loadCompanies()
-  }, [])
-
-  useEffect(() => {
-    loadCompanies()
   }, [companyContext.companiesSearcText, companyContext.companiesSort])
 
   const debouncedSearch = useRef(
@@ -85,27 +81,32 @@ export const CompaniesScreen = () => {
         />
         <ListButton
           icon={icons.sort}
+          selected={companyContext.companiesSort}
           data={[
             {
               name: strings.common.sort.nameIncreasing,
+              value: 'companyName',
               onPress: () => {
                 companyContext.setCompaniesSort('companyName')
               },
             },
             {
               name: strings.common.sort.nameDecreasing,
+              value: '-companyName',
               onPress: () => {
                 companyContext.setCompaniesSort('-companyName')
               },
             },
             {
               name: strings.common.sort.dateIncreasing,
+              value: 'lastAssessment',
               onPress: () => {
                 companyContext.setCompaniesSort('lastAssessment')
               },
             },
             {
               name: strings.common.sort.dateDecreasing,
+              value: '-lastAssessment',
               onPress: () => {
                 companyContext.setCompaniesSort('-lastAssessment')
               },

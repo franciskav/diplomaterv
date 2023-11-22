@@ -10,6 +10,10 @@ interface AssessmentContextProps {
   loadAssessments: (companyId: string) => void
   assessments: AssessmentDto[]
   assessmentsError?: string
+  assessmentsSearcText?: string
+  setAssessmentsSearcText: (search?: string) => void
+  assessmentsSort?: string
+  setAssessmentsSort: (sort?: string) => void
   createAssessment: (
     companyId: string,
     createAssessment: CreateAssessmentDto,
@@ -32,6 +36,14 @@ export const AssessmentContext = createContext<AssessmentContextProps>({
   },
   assessments: [],
   assessmentsError: undefined,
+  assessmentsSearcText: undefined,
+  setAssessmentsSearcText: () => {
+    throw new Error()
+  },
+  assessmentsSort: undefined,
+  setAssessmentsSort: () => {
+    throw new Error()
+  },
   createAssessment: () => {
     throw new Error()
   },
@@ -54,12 +66,20 @@ export const AssessmentProvider: React.FC<PropsWithChildren> = ({children}) => {
     AssessmentDetailsDto | undefined
   >()
   const [assessmentsError, setAssessmentsError] = useState<string | undefined>()
+  const [assessmentsSearcText, setAssessmentsSearcText] = useState<
+    string | undefined
+  >()
+  const [assessmentsSort, setAssessmentsSort] = useState<string | undefined>()
   const [isLoading, setIsLoading] = useState(false)
 
   const loadAssessments = async (companyId: string) => {
     setIsLoading(true)
     try {
-      const response = await assessmentApi.getAssessments(companyId)
+      const response = await assessmentApi.getAssessments(
+        companyId,
+        assessmentsSearcText,
+        assessmentsSort,
+      )
       setAssessments(response)
     } catch (error) {
       setAssessmentsError(strings.companyDetails.listError)
@@ -165,6 +185,10 @@ export const AssessmentProvider: React.FC<PropsWithChildren> = ({children}) => {
         loadAssessments,
         assessments,
         assessmentsError,
+        assessmentsSearcText,
+        setAssessmentsSearcText,
+        assessmentsSort,
+        setAssessmentsSort,
         createAssessment,
         updateAssessment,
         deleteAssessment,

@@ -6,8 +6,12 @@ import Network from '../network'
 class AssessmentApi {
   public getAssessments = async (
     companyId: string,
+    search?: string,
+    sort?: string,
   ): Promise<AssessmentDto[]> => {
-    const response = await Network.get(`/assessment/company/${companyId}`)
+    const response = await Network.get(`/assessment/company/${companyId}`, {
+      params: {search, sort},
+    })
     return response.data.data
   }
 
