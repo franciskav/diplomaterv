@@ -4,6 +4,7 @@ import {debounce} from 'lodash'
 import {useContext, useEffect, useRef, useState} from 'react'
 import {
   FlatList,
+  Linking,
   ListRenderItemInfo,
   StyleSheet,
   Text,
@@ -98,6 +99,20 @@ export const CompanyDetailsScreen = () => {
     }
   }, [debouncedSearch])
 
+  const onEmailPress = async (email?: string) => {
+    const url = 'mailto:' + email
+    if (await Linking.canOpenURL(url)) {
+      Linking.openURL(url)
+    }
+  }
+
+  const onPhonePress = async (phone?: string) => {
+    const url = 'tel:' + phone
+    if (await Linking.canOpenURL(url)) {
+      Linking.openURL(url)
+    }
+  }
+
   const renderHeader = () => {
     return (
       <View style={styles.searcRow}>
@@ -178,12 +193,14 @@ export const CompanyDetailsScreen = () => {
             textStyle.labelSecondary
           }>{`${companyContext.companyDetails?.contact.name}`}</Text>
         <Text
-          style={
-            textStyle.labelSecondary
+          style={textStyle.labelSecondary}
+          onPress={() =>
+            onEmailPress(companyContext.companyDetails?.contact.email)
           }>{`${companyContext.companyDetails?.contact.email}`}</Text>
         <Text
-          style={
-            textStyle.labelSecondary
+          style={textStyle.labelSecondary}
+          onPress={() =>
+            onPhonePress(companyContext.companyDetails?.contact.phone)
           }>{`${companyContext.companyDetails?.contact.phone}`}</Text>
       </View>
     )
