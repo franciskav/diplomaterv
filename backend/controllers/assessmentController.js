@@ -4,6 +4,7 @@ const Company = require('../models/companies')
 const ErrorHandler = require('../utils/errorHandler')
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors')
 const APIFilters = require('../utils/apiFilters')
+const dayjs = require('dayjs')
 
 exports.getAllAssessment = catchAsyncErrors(async (req, res, next) => {
   req.query = {...req.query, companyId: req.params.companyId}
@@ -37,10 +38,9 @@ exports.createAssessment = catchAsyncErrors(async (req, res, next) => {
     ...req.body,
   })
 
-  //TODO: ez itt nem lesz jó, a companynál kell majd megnézni az assessmenteket és visszaadni a maxot
+  //update last assessment date at company
   let company = await Company.findById(req.params.companyId)
-
-  if (new Date(company.lastAssessment) < new Date(assessment.date)) {
+  if (dayjs(company.lastAssessment).isBefore(assessment.date)) {
     company = await Company.findByIdAndUpdate(
       req.params.companyId,
       {lastAssessment: assessment.date},
@@ -72,6 +72,31 @@ exports.updateAssessment = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Assessment not found', 404))
   }
 
+  //update last assessment date at company
+  let company = await Company.findById(assessment.companyId)
+  if (dayjs(company.lastAssessment).isBefore(req.body.date)) {
+    company = await Company.findByIdAndUpdate(
+      assessment.companyId,
+      {lastAssessment: req.body.date},
+      {
+        new: true,
+        runValidators: true,
+      },
+    )
+  } else {
+    const last = await Assessment.find({companyId: assessment.companyId})
+      .sort('-date')
+      .limit(1)
+    company = await Company.findByIdAndUpdate(
+      assessment.companyId,
+      {lastAssessment: last[0].date},
+      {
+        new: true,
+        runValidators: true,
+      },
+    )
+  }
+
   assessment = await Assessment.findByIdAndUpdate(
     req.params.assessmentId,
     req.body,
@@ -99,6 +124,25 @@ exports.deleteAssessment = catchAsyncErrors(async (req, res, next) => {
 
   if (!assessment) {
     return next(new ErrorHandler('Assessment not found', 404))
+  }
+
+  //update last assessment date at company
+  let company = await Company.findById(assessment.companyId)
+  console.log(company.lastAssessment, assessment.date)
+  if (dayjs(company.lastAssessment).isSame(assessment.date)) {
+    console.log('isSame')
+    const last = await Assessment.find({companyId: assessment.companyId})
+      .sort('-date')
+      .limit(2)
+    console.log(last)
+    company = await Company.findByIdAndUpdate(
+      assessment.companyId,
+      {lastAssessment: last[1].date},
+      {
+        new: true,
+        runValidators: true,
+      },
+    )
   }
 
   assessment = await Assessment.findByIdAndDelete(req.params.assessmentId)
