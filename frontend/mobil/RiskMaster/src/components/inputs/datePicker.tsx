@@ -50,7 +50,7 @@ export const DatePicker = (props: DatePickerProps) => {
         onCancel={() => {
           setIsDatePickerVisible(false)
         }}
-        date={dayjs(props.value).toDate()}
+        date={props.value ? dayjs(props.value).toDate() : undefined}
       />
     </View>
   )
