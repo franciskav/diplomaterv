@@ -1,11 +1,10 @@
-import {RiskLevelsDto} from './riskLevelsDto'
+import {PositionDto} from './positionDto'
 
 export interface AssessmentDetailsDto {
   id: string
   name: string
   date: string
   locationType: string
-  numberOfPositions: number
-  riskLevels: RiskLevelsDto[]
-  //positions: PositionDto[]
+  //riskLevels: RiskLevelsDto[]
+  positions: PositionDto[]
 }

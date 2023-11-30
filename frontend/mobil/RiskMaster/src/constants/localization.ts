@@ -99,6 +99,15 @@ export const strings = new LocalizedStrings({
       date: 'Időpont',
       type: 'Helyszín típus',
     },
+    assessmentDetails: {
+      date: 'Időpont',
+      placeType: 'Helyszín típus',
+      positionsCount: 'Munkakörök száma',
+      physicalRisk: 'Fizikai kockázat',
+      chemicalRisk: 'Kémiai kockázat',
+      biologicalRisk: 'Biológiai kockázat',
+      psychosocialRisk: 'Pszichoszociális kockázat',
+    },
 
     physicalRisk: {
       risks: 'Kockázatok',

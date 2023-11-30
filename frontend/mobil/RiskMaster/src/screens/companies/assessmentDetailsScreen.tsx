@@ -1,7 +1,14 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
+import dayjs from 'dayjs'
 import {useEffect, useState} from 'react'
-import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native'
+import {
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import {IconButton} from '../../components/buttons/iconButton'
 import {ListButton} from '../../components/buttons/listButton'
 import {CustomTextInput} from '../../components/inputs/textInput'
@@ -11,60 +18,36 @@ import {icons} from '../../constants/icons'
 import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
+import {textStyle} from '../../constants/styles'
 import {useColors} from '../../hook/colorsHook'
 import {AssessmentDetailsDto} from '../../model/assessmentDetailsDto'
+import {RiskLevel} from '../../model/enum/riskLevel'
 import {PositionDto} from '../../model/positionDto'
 import {RootStackProps} from '../../navigation/rootStack'
+import {formatDate} from '../../utility/helpers/formatHelper'
 import {PositionListItem} from './components/positionListItem'
 
 const assessmentDetails: AssessmentDetailsDto = {
   id: '1',
   name: 'Gránit Zrt',
+  date: dayjs().toISOString(),
   locationType: 'Raktár',
   positions: [
     {
       id: '1',
       name: 'Targoncakezelő',
-      risks: [
-        {
-          risk: 'Fizikai kockázat:',
-          degree: 2,
-        },
-        {
-          risk: 'Kémiai kockázat:',
-          degree: undefined,
-        },
-        // {
-        //   risk: 'Biológiai kockázat:',
-        //   degree: undefined,
-        // },
-        // {
-        //   risk: 'Pszichoszociális kockázat:',
-        //   degree: undefined,
-        // },
-      ],
+      employeeNumber: 2,
+      risks: {
+        physicalRisk: RiskLevel.risk2,
+      },
     },
     {
       id: '2',
       name: 'Műszakvezető',
-      risks: [
-        {
-          risk: 'Fizikai kockázat:',
-          degree: 3,
-        },
-        {
-          risk: 'Kémiai kockázat:',
-          degree: undefined,
-        },
-        // {
-        //   risk: 'Biológiai kockázat:',
-        //   degree: undefined,
-        // },
-        // {
-        //   risk: 'Pszichoszociális kockázat:',
-        //   degree: undefined,
-        // },
-      ],
+      employeeNumber: 1,
+      risks: {
+        physicalRisk: RiskLevel.risk1,
+      },
     },
   ],
 }
@@ -90,16 +73,17 @@ export const AssessmentDetailsScreen = () => {
       title: route.params.assessmentName,
       headerRight: () => (
         <View style={styles.row}>
-          {/* <IconButton
+          <IconButton
             style={margins.mrNormal}
             type="secondary"
             size="small"
             icon={icons.add}
             onPress={() => {
               //TODO: implement
+              //to createPosition
               navigation.push('CreateAssessment')
             }}
-          /> */}
+          />
           <IconButton
             style={margins.mrMedium}
             type="secondary"
@@ -164,6 +148,47 @@ export const AssessmentDetailsScreen = () => {
     )
   }
 
+  const renderRow = (label: string, value: string) => {
+    return (
+      <Text style={textStyle.labelSecondary}>
+        {`${label}: `}
+        <Text style={textStyle.body}>{value}</Text>
+      </Text>
+    )
+  }
+
+  const renderInfo = () => {
+    return (
+      <View style={styles.infoRow}>
+        <View style={styles.row}>
+          <View style={styles.flex1}>
+            {renderRow(
+              strings.assessmentDetails.date,
+              formatDate(assessmentDetails.date),
+            )}
+          </View>
+          <IconButton
+            style={{borderWidth: 0}}
+            size="small"
+            type="secondary"
+            icon={icons.edit}
+            onPress={() => {
+              //TODO: implement
+            }}
+          />
+        </View>
+        {renderRow(
+          strings.assessmentDetails.placeType,
+          assessmentDetails.locationType,
+        )}
+        {renderRow(
+          strings.assessmentDetails.positionsCount,
+          assessmentDetails.positions.length.toString(),
+        )}
+      </View>
+    )
+  }
+
   const renderItem = (row: ListRenderItemInfo<PositionDto>) => {
     return (
       <PositionListItem
@@ -173,7 +198,8 @@ export const AssessmentDetailsScreen = () => {
           navigation.push('PhysicalRiskScreen')
         }}
         onEditPress={() => {
-          navigation.push('CreateAssessment', {assessmentId: row.item.id})
+          //TODO: implement
+          //navigation.push('CreateAssessment', {assessmentId: row.item.id})
         }}
         onDeletePress={() => {
           //TODO: implement
@@ -203,6 +229,7 @@ export const AssessmentDetailsScreen = () => {
   return (
     <View style={styles.flex1}>
       {isSearchOpen && renderHeader()}
+      {renderInfo()}
       <FlatList
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
