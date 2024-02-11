@@ -7,8 +7,8 @@ import {strings} from '../../../constants/localization'
 import {margins} from '../../../constants/margins'
 import {textStyle} from '../../../constants/styles'
 import {useColors} from '../../../hook/colorsHook'
+import {RiskLevel} from '../../../model/enum/riskLevel'
 import {PositionDto} from '../../../model/positionDto'
-import {RiskDto} from '../../../model/riskDto'
 
 interface PositionListItemProps {
   item: PositionDto
@@ -40,31 +40,31 @@ export const PositionListItem = (props: PositionListItemProps) => {
     }
   }
 
-  const getLevelText = (degree?: number) => {
-    switch (degree) {
-      case 0:
+  const getLevelText = (riskLevel?: RiskLevel) => {
+    switch (riskLevel) {
+      case RiskLevel.risk0:
         return '0'
-      case 1:
+      case RiskLevel.risk1:
         return 'I'
-      case 2:
+      case RiskLevel.risk2:
         return 'II'
-      case 3:
+      case RiskLevel.risk3:
         return 'III'
-      case 4:
+      case RiskLevel.risk4:
         return 'IV'
-      case 5:
+      case RiskLevel.risk5:
         return 'V'
       default:
         return '-'
     }
   }
 
-  const riskItem = (risk: RiskDto, index: number) => {
+  const riskItem = (title: string, level?: RiskLevel) => {
     return (
-      <View style={[styles.riskItem, margins.mtSmall]} key={index}>
-        <View style={[margins.mrSmall, styles.dot, getDotColor(risk.degree)]} />
-        <Text style={textStyle.labelSecondary}>{risk.risk}</Text>
-        <Text style={[textStyle.small]}>{getLevelText(risk.degree)}</Text>
+      <View style={[styles.riskItem, margins.mtSmall]}>
+        <View style={[margins.mrSmall, styles.dot, getDotColor(level)]} />
+        <Text style={textStyle.labelSecondary}>{`${title}: `}</Text>
+        <Text style={[textStyle.small]}>{getLevelText(level)}</Text>
       </View>
     )
   }
@@ -73,7 +73,7 @@ export const PositionListItem = (props: PositionListItemProps) => {
     <Card onPress={props.onPress} style={styles.card}>
       <View style={[styles.row, margins.mbSmall]}>
         <Text style={[textStyle.smallTitle, styles.flex1]}>
-          {props.item.name}
+          {`${props.item.name} - ${props.item.employeeNumber}`}
         </Text>
         <ListButton
           small
@@ -96,7 +96,22 @@ export const PositionListItem = (props: PositionListItemProps) => {
         />
       </View>
       <View>
-        {props.item.risks.map((risk, index) => riskItem(risk, index))}
+        {riskItem(
+          strings.assessmentDetails.physicalRisk,
+          props.item.risks.physicalRisk,
+        )}
+        {riskItem(
+          strings.assessmentDetails.chemicalRisk,
+          props.item.risks.chemicalRisk,
+        )}
+        {riskItem(
+          strings.assessmentDetails.biologicalRisk,
+          props.item.risks.biologicalRisk,
+        )}
+        {riskItem(
+          strings.assessmentDetails.psychosocialRisk,
+          props.item.risks.psychosocialRisk,
+        )}
       </View>
     </Card>
   )

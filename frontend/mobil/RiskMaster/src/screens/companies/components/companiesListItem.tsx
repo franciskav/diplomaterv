@@ -25,7 +25,7 @@ export const CompaniesListItem = (props: CompaniesListItemProps) => {
     <Card onPress={props.onPress} style={styles.card}>
       <View style={[styles.row, margins.mbNormal]}>
         <Text style={[textStyle.smallTitle, styles.flex1]}>
-          {props.item.name}
+          {props.item.companyName}
         </Text>
         <ListButton
           small

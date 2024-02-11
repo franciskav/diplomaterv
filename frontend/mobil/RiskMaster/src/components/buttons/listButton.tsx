@@ -20,6 +20,7 @@ import {IconButton} from './iconButton'
 
 export interface MenuItem {
   name: string
+  value?: string
   icon?: ImageSourcePropType
   iconStyle?: StyleProp<ImageStyle>
   isAccent?: boolean
@@ -28,6 +29,7 @@ export interface MenuItem {
 
 interface ListButtonProps {
   data: MenuItem[]
+  selected?: string
   headerText: string
   icon: ImageSourcePropType
   small?: boolean
@@ -68,7 +70,9 @@ export const ListButton = (props: ListButtonProps) => {
         )}
         <Text
           style={[
-            textStyle.medium,
+            props.selected && row.item.value === props.selected
+              ? textStyle.mediumBold
+              : textStyle.medium,
             {color: row.item.isAccent ? colors.error : colors.text.primary},
           ]}>
           {row.item.name}

@@ -1,5 +1,4 @@
 import {AddressDto} from './addressDto'
-import {AssessmentDto} from './assessmentDto'
 import {ContactDto} from './contactDto'
 
 export interface CompanyDetailsDto {
@@ -8,5 +7,5 @@ export interface CompanyDetailsDto {
   lastAssessment?: string
   address: AddressDto
   contact: ContactDto
-  assessments: AssessmentDto[]
+  //assessments: AssessmentDto[]
 }

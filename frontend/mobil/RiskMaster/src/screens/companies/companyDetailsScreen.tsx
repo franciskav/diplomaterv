@@ -1,9 +1,10 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
-import dayjs from 'dayjs'
-import {useEffect, useState} from 'react'
+import {debounce} from 'lodash'
+import {useContext, useEffect, useRef, useState} from 'react'
 import {
   FlatList,
+  Linking,
   ListRenderItemInfo,
   StyleSheet,
   Text,
@@ -19,87 +20,12 @@ import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
 import {textStyle} from '../../constants/styles'
+import {AssessmentContext} from '../../context/assessmentProvider'
+import {CompanyContext} from '../../context/companyProvider'
 import {useColors} from '../../hook/colorsHook'
 import {AssessmentDto} from '../../model/assessmentDto'
-import {CompanyDetailsDto} from '../../model/companyDetailsDto'
 import {RootStackProps} from '../../navigation/rootStack'
 import {AssessmentListItem} from './components/assessmentListItem'
-
-const companyDetails: CompanyDetailsDto = {
-  id: '1',
-  name: 'Gránit Zrt',
-  lastAssessment: dayjs('2023-04-22').toString(),
-  address: {
-    zipCode: '1117',
-    city: 'Budapest',
-    street: 'Magyar Tudósok Körútja 2',
-  },
-  contact: {
-    name: 'Kiss János',
-    email: 'kiss.janos@mail.com',
-    phone: '+36202233444',
-  },
-  assessments: [
-    {
-      id: '1',
-      name: 'Csiszolókorong raktár',
-      date: dayjs('2023-04-22').toString(),
-      locationType: 'Raktár',
-      numberOfPositions: 2,
-      riskLevels: [
-        {
-          level: 'I',
-          percent: 0.85,
-        },
-        {
-          level: 'II',
-          percent: 0.08,
-        },
-        {
-          level: 'III',
-          percent: 0.05,
-        },
-        {
-          level: 'IV',
-          percent: 0.01,
-        },
-        {
-          level: 'V',
-          percent: 0.01,
-        },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Iroda',
-      date: dayjs('2023-02-13').toString(),
-      locationType: 'Iroda',
-      numberOfPositions: 1,
-      riskLevels: [
-        {
-          level: 'I',
-          percent: 0.94,
-        },
-        {
-          level: 'II',
-          percent: 0.01,
-        },
-        {
-          level: 'III',
-          percent: 0.05,
-        },
-        {
-          level: 'IV',
-          percent: 0,
-        },
-        {
-          level: 'V',
-          percent: 0,
-        },
-      ],
-    },
-  ],
-}
 
 export interface CompanyDetailsScreenProps {
   companyId: string
@@ -112,6 +38,9 @@ export const CompanyDetailsScreen = () => {
 
   const route = useRoute<RouteProp<RootStackProps, 'CompanyDetailsScreen'>>()
   const navigation = useNavigation<StackNavigationProp<RootStackProps>>()
+
+  const companyContext = useContext(CompanyContext)
+  const assessmentContext = useContext(AssessmentContext)
 
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchText, setSearchText] = useState<string>('')
@@ -127,8 +56,9 @@ export const CompanyDetailsScreen = () => {
             size="small"
             icon={icons.add}
             onPress={() => {
-              //TODO: implement
-              navigation.push('CreateAssessment')
+              navigation.push('CreateAssessment', {
+                companyId: route.params.companyId,
+              })
             }}
           />
           <IconButton
@@ -137,7 +67,6 @@ export const CompanyDetailsScreen = () => {
             size="small"
             icon={icons.sort}
             onPress={() => {
-              //TODO: implement
               setIsSearchOpen(!isSearchOpen)
             }}
           />
@@ -145,6 +74,44 @@ export const CompanyDetailsScreen = () => {
       ),
     })
   }, [isSearchOpen])
+
+  const loadData = () => {
+    companyContext.loadCompanyDetails(route.params.companyId)
+    assessmentContext.loadAssessments(route.params.companyId)
+  }
+
+  useEffect(() => {
+    loadData()
+  }, [
+    assessmentContext.assessmentsSearcText,
+    assessmentContext.assessmentsSort,
+  ])
+
+  const debouncedSearch = useRef(
+    debounce(async text => {
+      assessmentContext.setAssessmentsSearcText(text === '' ? undefined : text)
+    }, 1000),
+  ).current
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [debouncedSearch])
+
+  const onEmailPress = async (email?: string) => {
+    const url = 'mailto:' + email
+    if (await Linking.canOpenURL(url)) {
+      Linking.openURL(url)
+    }
+  }
+
+  const onPhonePress = async (phone?: string) => {
+    const url = 'tel:' + phone
+    if (await Linking.canOpenURL(url)) {
+      Linking.openURL(url)
+    }
+  }
 
   const renderHeader = () => {
     return (
@@ -154,8 +121,8 @@ export const CompanyDetailsScreen = () => {
           textInputProps={{
             value: searchText,
             onChangeText: value => {
-              //TODO: implement
               setSearchText(value)
+              debouncedSearch(value)
             },
             returnKeyType: 'done',
             placeholder: strings.common.search,
@@ -163,29 +130,34 @@ export const CompanyDetailsScreen = () => {
         />
         <ListButton
           icon={icons.sort}
+          selected={assessmentContext.assessmentsSort}
           data={[
             {
               name: strings.common.sort.nameIncreasing,
+              value: 'name',
               onPress: () => {
-                //TODO: implement
+                assessmentContext.setAssessmentsSort('name')
               },
             },
             {
               name: strings.common.sort.nameDecreasing,
+              value: '-name',
               onPress: () => {
-                //TODO: implement
+                assessmentContext.setAssessmentsSort('-name')
               },
             },
             {
               name: strings.common.sort.dateIncreasing,
+              value: 'date',
               onPress: () => {
-                //TODO: implement
+                assessmentContext.setAssessmentsSort('date')
               },
             },
             {
               name: strings.common.sort.dateDecreasing,
+              value: '-date',
               onPress: () => {
-                //TODO: implement
+                assessmentContext.setAssessmentsSort('-date')
               },
             },
           ]}
@@ -200,33 +172,36 @@ export const CompanyDetailsScreen = () => {
       <View style={styles.infoRow}>
         <View style={styles.row}>
           <Text style={[textStyle.medium, styles.flex1, margins.mbNormal]}>{`${
-            companyDetails.address.zipCode
-          } ${companyDetails.address.city}, ${companyDetails.address.street} ${
-            companyDetails.address.door ?? ''
-          }`}</Text>
+            companyContext.companyDetails?.address.zipCode
+          } ${companyContext.companyDetails?.address.city}, ${
+            companyContext.companyDetails?.address.street
+          } ${companyContext.companyDetails?.address.door ?? ''}`}</Text>
           <IconButton
             style={{borderWidth: 0}}
             size="small"
             type="secondary"
             icon={icons.edit}
             onPress={() => {
-              //TODO: implement
-              navigation.push('CreateCompany', {companyId: companyDetails.id})
+              navigation.push('CreateCompany', {
+                companyId: route.params.companyId,
+              })
             }}
           />
         </View>
         <Text
           style={
             textStyle.labelSecondary
-          }>{`${companyDetails.contact.name}`}</Text>
+          }>{`${companyContext.companyDetails?.contact.name}`}</Text>
         <Text
-          style={
-            textStyle.labelSecondary
-          }>{`${companyDetails.contact.email}`}</Text>
+          style={textStyle.labelSecondary}
+          onPress={() =>
+            onEmailPress(companyContext.companyDetails?.contact.email)
+          }>{`${companyContext.companyDetails?.contact.email}`}</Text>
         <Text
-          style={
-            textStyle.labelSecondary
-          }>{`${companyDetails.contact.phone}`}</Text>
+          style={textStyle.labelSecondary}
+          onPress={() =>
+            onPhonePress(companyContext.companyDetails?.contact.phone)
+          }>{`${companyContext.companyDetails?.contact.phone}`}</Text>
       </View>
     )
   }
@@ -236,17 +211,19 @@ export const CompanyDetailsScreen = () => {
       <AssessmentListItem
         item={row.item}
         onPress={() => {
-          //TODO: implement
           navigation.push('AsseessmentDetailsScreen', {
             assessmentId: row.item.id,
             assessmentName: row.item.name,
           })
         }}
         onEditPress={() => {
-          navigation.push('CreateAssessment', {assessmentId: row.item.id})
+          navigation.push('CreateAssessment', {
+            companyId: route.params.companyId,
+            assessmentId: row.item.id,
+          })
         }}
         onDeletePress={() => {
-          //TODO: implement
+          assessmentContext.deleteAssessment(row.item.id)
         }}
       />
     )
@@ -263,7 +240,9 @@ export const CompanyDetailsScreen = () => {
         button={{
           title: strings.companyDetails.addItem,
           onPress: () => {
-            //TODO: implement
+            navigation.push('CreateAssessment', {
+              companyId: route.params.companyId,
+            })
           },
         }}
       />
@@ -278,10 +257,12 @@ export const CompanyDetailsScreen = () => {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
-        data={companyDetails.assessments}
+        data={assessmentContext.assessments}
         renderItem={renderItem}
         ItemSeparatorComponent={itemSeparator}
         ListEmptyComponent={listEmptyComponent}
+        refreshing={companyContext.isLoading || assessmentContext.isLoading}
+        onRefresh={loadData}
         keyboardShouldPersistTaps={'handled'}
       />
     </View>

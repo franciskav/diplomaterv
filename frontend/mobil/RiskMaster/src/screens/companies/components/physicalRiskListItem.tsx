@@ -85,7 +85,7 @@ export const PhysicalRiskListItem = (props: PhysicalRiskListItemProps) => {
     <Card onPress={props.onPress} style={styles.card}>
       <View style={[styles.row, margins.mbNormal]}>
         <Text style={[textStyle.smallTitle, styles.flex1]}>
-          {props.item.name}
+          {props.item.riskType}
         </Text>
         <ListButton
           small

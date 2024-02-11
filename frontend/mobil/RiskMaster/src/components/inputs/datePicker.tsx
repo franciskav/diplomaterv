@@ -1,10 +1,9 @@
+import dayjs from 'dayjs'
 import {useState} from 'react'
-import {StyleProp, StyleSheet, TextStyle, View, ViewStyle} from 'react-native'
+import {StyleProp, TextStyle, View, ViewStyle} from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker'
-import {Colors} from '../../constants/colors'
 import {icons} from '../../constants/icons'
 import {strings} from '../../constants/localization'
-import {useColors} from '../../hook/colorsHook'
 import {formatDate} from '../../utility/helpers/formatHelper'
 import {CustomTextInput} from './textInput'
 
@@ -20,8 +19,6 @@ interface DatePickerProps {
 }
 
 export const DatePicker = (props: DatePickerProps) => {
-  const colors = useColors()
-  const styles = createStyles(colors)
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
   return (
@@ -47,19 +44,14 @@ export const DatePicker = (props: DatePickerProps) => {
         cancelTextIOS={strings.common.buttons.cancel}
         confirmTextIOS={strings.common.buttons.ok}
         onConfirm={value => {
-          props.onSelect(value.toDateString())
+          props.onSelect(value.toISOString())
           setIsDatePickerVisible(false)
         }}
         onCancel={() => {
           setIsDatePickerVisible(false)
         }}
+        date={props.value ? dayjs(props.value).toDate() : undefined}
       />
     </View>
   )
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const createStyles = (colors: Colors) => {
-  const styles = StyleSheet.create({})
-  return styles
 }

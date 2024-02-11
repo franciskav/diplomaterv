@@ -8,7 +8,7 @@ class APIFilters {
     const queryCopy = {...this.queryStr}
 
     // Removing fields from the query
-    const removeFields = ['sort', 'fields', 'q', 'limit', 'page']
+    const removeFields = ['sort', 'fields', 'search', 'limit', 'page']
     removeFields.forEach(el => delete queryCopy[el])
 
     // Advance filter using: lt, lte, gt, gte
@@ -42,8 +42,8 @@ class APIFilters {
   }
 
   searchByQuery() {
-    if (this.queryStr.q) {
-      const qu = this.queryStr.q.split('-').join(' ')
+    if (this.queryStr.search) {
+      const qu = this.queryStr.search.split('-').join(' ')
       this.query = this.query.find({$text: {$search: '"' + qu + '"'}})
     }
 

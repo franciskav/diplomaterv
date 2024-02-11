@@ -14,7 +14,12 @@ export const strings = new LocalizedStrings({
           'Hiba történt az adatok mentése közben, kérjük próbálja meg újra!',
         loadError:
           'Hiba történt az adatok betöltése közben, kérjük próbálja meg újra!',
+        deleteError:
+          'Hiba történt az adatok törlése közben, kérjük próbálja meg újra!',
         unexpectedError: 'Váratlan hiba történt, kérjük próbálja meg újra!',
+      },
+      succes: {
+        title: 'Sikeres művelet',
       },
       buttons: {
         save: 'Mentés',
@@ -64,6 +69,7 @@ export const strings = new LocalizedStrings({
       emptyList: 'A megadott keresési feltételek mellet nem található cég',
       addItem: '+ Új hozzáadása',
       lastAssessment: 'Utolsó kockázatelenzés',
+      listError: 'A cégek betöltése sikertelen',
     },
     createCompany: {
       createTitle: 'Cég létrehozása',
@@ -84,6 +90,7 @@ export const strings = new LocalizedStrings({
       riskLevels: 'Kockázati szintek',
       emptyList: 'A megadott keresési feltételek mellet nem található elemzés',
       addItem: '+ Új hozzáadása',
+      listError: 'Az elemzések betöltése sikertelen',
     },
     createAssessment: {
       createTitle: 'Új kockázatelemzés',
@@ -91,6 +98,15 @@ export const strings = new LocalizedStrings({
       name: 'Név',
       date: 'Időpont',
       type: 'Helyszín típus',
+    },
+    assessmentDetails: {
+      date: 'Időpont',
+      placeType: 'Helyszín típus',
+      positionsCount: 'Munkakörök száma',
+      physicalRisk: 'Fizikai kockázat',
+      chemicalRisk: 'Kémiai kockázat',
+      biologicalRisk: 'Biológiai kockázat',
+      psychosocialRisk: 'Pszichoszociális kockázat',
     },
 
     physicalRisk: {

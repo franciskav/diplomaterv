@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
-import dayjs from 'dayjs'
-import {useEffect, useState} from 'react'
+import {debounce} from 'lodash'
+import {useContext, useEffect, useRef, useState} from 'react'
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native'
 import {IconButton} from '../../components/buttons/iconButton'
 import {ListButton} from '../../components/buttons/listButton'
@@ -12,38 +12,19 @@ import {icons} from '../../constants/icons'
 import {strings} from '../../constants/localization'
 import {margins} from '../../constants/margins'
 import {spaces} from '../../constants/spaces'
+import {CompanyContext} from '../../context/companyProvider'
 import {useColors} from '../../hook/colorsHook'
 import {CompanyDto} from '../../model/companyDto'
 import {RootStackProps} from '../../navigation/rootStack'
 import {CompaniesListItem} from './components/companiesListItem'
-
-const data: CompanyDto[] = [
-  {
-    id: '1',
-    name: 'Gránit Zrt',
-    lastAssessment: dayjs('2023-04-22').toString(),
-  },
-  {
-    id: '2',
-    name: 'Fruit Systems',
-    lastAssessment: dayjs('2023-02-11').toString(),
-  },
-  {
-    id: '3',
-    name: 'Ant Labs',
-    lastAssessment: dayjs('2022-05-1').toString(),
-  },
-  {
-    id: '4',
-    name: 'RailwayStory',
-  },
-]
 
 export const CompaniesScreen = () => {
   const colors = useColors()
   const styles = createStyles(colors)
 
   const navigation = useNavigation<StackNavigationProp<RootStackProps>>()
+
+  const companyContext = useContext(CompanyContext)
 
   const [searchText, setSearchText] = useState<string>('')
 
@@ -56,13 +37,32 @@ export const CompaniesScreen = () => {
           size="small"
           icon={icons.add}
           onPress={() => {
-            //TODO: implement
             navigation.push('CreateCompany')
           }}
         />
       ),
     })
   }, [])
+
+  const loadCompanies = () => {
+    companyContext.loadCompanies()
+  }
+
+  useEffect(() => {
+    loadCompanies()
+  }, [companyContext.companiesSearcText, companyContext.companiesSort])
+
+  const debouncedSearch = useRef(
+    debounce(async text => {
+      companyContext.setCompaniesSearcText(text === '' ? undefined : text)
+    }, 1000),
+  ).current
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [debouncedSearch])
 
   const renderHeader = () => {
     return (
@@ -72,8 +72,8 @@ export const CompaniesScreen = () => {
           textInputProps={{
             value: searchText,
             onChangeText: value => {
-              //TODO: implement
               setSearchText(value)
+              debouncedSearch(value)
             },
             returnKeyType: 'done',
             placeholder: strings.common.search,
@@ -81,29 +81,34 @@ export const CompaniesScreen = () => {
         />
         <ListButton
           icon={icons.sort}
+          selected={companyContext.companiesSort}
           data={[
             {
               name: strings.common.sort.nameIncreasing,
+              value: 'companyName',
               onPress: () => {
-                //TODO: implement
+                companyContext.setCompaniesSort('companyName')
               },
             },
             {
               name: strings.common.sort.nameDecreasing,
+              value: '-companyName',
               onPress: () => {
-                //TODO: implement
+                companyContext.setCompaniesSort('-companyName')
               },
             },
             {
               name: strings.common.sort.dateIncreasing,
+              value: 'lastAssessment',
               onPress: () => {
-                //TODO: implement
+                companyContext.setCompaniesSort('lastAssessment')
               },
             },
             {
               name: strings.common.sort.dateDecreasing,
+              value: '-lastAssessment',
               onPress: () => {
-                //TODO: implement
+                companyContext.setCompaniesSort('-lastAssessment')
               },
             },
           ]}
@@ -118,17 +123,16 @@ export const CompaniesScreen = () => {
       <CompaniesListItem
         item={row.item}
         onPress={() => {
-          //TODO: implement
           navigation.push('CompanyDetailsScreen', {
             companyId: row.item.id,
-            companyName: row.item.name,
+            companyName: row.item.companyName,
           })
         }}
         onEditPress={() => {
           navigation.push('CreateCompany', {companyId: row.item.id})
         }}
         onDeletePress={() => {
-          //TODO: implement
+          companyContext.deleteCompany(row.item.id)
         }}
       />
     )
@@ -145,9 +149,10 @@ export const CompaniesScreen = () => {
         button={{
           title: strings.companies.addItem,
           onPress: () => {
-            //TODO: implement
+            navigation.push('CreateCompany')
           },
         }}
+        error={companyContext.companiesError}
       />
     )
   }
@@ -159,10 +164,12 @@ export const CompaniesScreen = () => {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
-        data={data}
+        data={companyContext.companies}
         renderItem={renderItem}
         ItemSeparatorComponent={itemSeparator}
         ListEmptyComponent={listEmptyComponent}
+        refreshing={companyContext.isLoading}
+        onRefresh={loadCompanies}
         keyboardShouldPersistTaps={'handled'}
       />
     </View>

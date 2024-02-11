@@ -1,7 +1,8 @@
-import {RiskDto} from './riskDto'
+import {RisksDto} from './risksDto'
 
 export interface PositionDto {
   id: string
   name: string
-  risks: RiskDto[]
+  employeeNumber: number
+  risks: RisksDto
 }

@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Image, ListRenderItemInfo, StyleSheet, View} from 'react-native'
+import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native'
 import {BottomCard} from '../../components/cards/bottomCard'
 import {ListEmptyComponent} from '../../components/listEmptyComponent'
 import {Tab} from '../../components/tab/tab'
@@ -12,19 +12,19 @@ import {PhysicalRiskListItem} from './components/physicalRiskListItem'
 
 const data: RiskItem[] = [
   {
-    name: 'Targonca használata',
+    riskType: 'Targonca használata',
     riskCount: 20,
     riskDegree: 2,
     protectiveMeasure: [
       {
         isExisting: true,
         description: 'Üzembehelyezés előtti vizsgálat megtörtént',
-        proposedAction: '',
+        proposedAction: 'Lorem ipsum...',
       },
       {
         isExisting: true,
         description: 'A targonca időszakos felülvizsgálata megtörtént',
-        proposedAction: '',
+        proposedAction: 'Lorem ipsum...',
       },
       {
         isExisting: false,
@@ -39,7 +39,7 @@ const data: RiskItem[] = [
     ],
   },
   {
-    name: 'Szúró- vágóeszköz használata',
+    riskType: 'Szúró- vágóeszköz használata',
     riskCount: 5,
     riskDegree: 1,
     protectiveMeasure: [
@@ -119,7 +119,7 @@ export const PhysicalRiskScreen = () => {
         ]}
         selected={selectedTab}
       />
-      {/* <FlatList
+      <FlatList
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
@@ -128,8 +128,8 @@ export const PhysicalRiskScreen = () => {
         ItemSeparatorComponent={itemSeparator}
         ListEmptyComponent={listEmptyComponent}
         keyboardShouldPersistTaps={'handled'}
-      /> */}
-      <View
+      />
+      {/* <View
         style={{
           flex: 1,
           marginHorizontal: spaces.contentHorizontal,
@@ -146,7 +146,7 @@ export const PhysicalRiskScreen = () => {
             borderRadius: 10,
           }}
         />
-      </View>
+      </View> */}
       <BottomCard
         button1={{
           title: strings.physicalRisk.addItem,
