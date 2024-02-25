@@ -4,6 +4,6 @@
     "source.organizeImports": true
   },
   "eslint.workingDirectories": [
-    ".frontend/mobil/RiskMaster/.eslintrc.json"
+    "frontend/mobil/RiskMaster/.eslintrc.json"
   ] 
 }
