@@ -32,6 +32,19 @@
 $ npm install
 ```
 
+## Create new module
+
+```bash
+# module
+$ nest g module <name>
+
+# controller
+$ nest g controller <name>
+
+# service
+$ nest g service <name>
+```
+
 ## Running the app
 
 ```bash
